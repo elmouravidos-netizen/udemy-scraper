@@ -1,23 +1,46 @@
 {
   "meta": {
-    "scraped_at": "2026-05-05T16:40:27.771909",
+    "scraped_at": "2026-05-05T23:45:55.715376",
+    "next_update": "2026-05-06T23:45:55.715387",
     "total_courses": 43,
+    "expired_removed": 0,
+    "thumbnail_sources": {
+      "oembed": 0,
+      "scraped": 43,
+      "placeholder": 0
+    },
     "sources": [
       "udemyfree.eu",
       "udemyfreecourses.eu",
       "coursecouponclub",
-      "couponscorpion",
-      "realdiscount"
+      "couponscorpion"
     ],
     "source_counts": {
       "udemyfree.eu": 3,
       "udemyfreecourses.eu": 3,
       "coursecouponclub": 0,
-      "couponscorpion": 37,
-      "realdiscount": 0
+      "couponscorpion": 37
     }
   },
   "courses": [
+    {
+      "title": "Generative AI Simplified | Udemy Free Course 2026",
+      "url": "https://www.udemy.com/course/generative-ai-simplified/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "data",
+      "platform": "Udemy",
+      "source": "UdemyFree.eu.org",
+      "thumbnail": "https://img-c.udemycdn.com/course/750x422/6223571_5246.jpg",
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:29.009196",
+      "scraped_at": "2026-05-05T23:45:29.009206"
+    },
     {
       "title": "Learn Python from scratch with easy example & explanation | Udemy Free Course 2026",
       "url": "https://www.udemy.com/course/learn-python-from-scratch-with-easy-example/",
@@ -30,7 +53,11 @@
       "category": "programming",
       "platform": "Udemy",
       "source": "UdemyFree.eu.org",
-      "scraped_at": "2026-05-05T16:40:04.596853"
+      "thumbnail": "https://img-c.udemycdn.com/course/750x422/5550330_ec0e.jpg",
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:29.302193",
+      "scraped_at": "2026-05-05T23:45:29.302203"
     },
     {
       "title": "How to Read Your Human Design Chart (Introductory HD Course) | Udemy Free Course 2026",
@@ -44,21 +71,11 @@
       "category": "design",
       "platform": "Udemy",
       "source": "UdemyFree.eu.org",
-      "scraped_at": "2026-05-05T16:40:04.714924"
-    },
-    {
-      "title": "How to turn ML Outputs into Business Decisions with LLMs | Udemy Free Course 2026",
-      "url": "https://www.udemy.com/course/talk-to-your-data-strategic-insights-with-llms/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "business",
-      "platform": "Udemy",
-      "source": "UdemyFree.eu.org",
-      "scraped_at": "2026-05-05T16:40:05.059009"
+      "thumbnail": "https://img-c.udemycdn.com/course/750x422/3910270_869d_5.jpg",
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:29.633950",
+      "scraped_at": "2026-05-05T23:45:29.633960"
     },
     {
       "title": "Excel Automation using Uipath [Free]",
@@ -72,7 +89,11 @@
       "category": "design",
       "platform": "Udemy",
       "source": "UdemyFreeCourses.eu.org",
-      "scraped_at": "2026-05-05T16:40:05.970354"
+      "thumbnail": "https://img-c.udemycdn.com/course/750x422/4192016_0076.jpg",
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:30.815292",
+      "scraped_at": "2026-05-05T23:45:30.815303"
     },
     {
       "title": "Create Your Own Link-in-Bio Website with HTML & CSS [FREE UDEMY COURSES]",
@@ -86,7 +107,11 @@
       "category": "programming",
       "platform": "Udemy",
       "source": "UdemyFreeCourses.eu.org",
-      "scraped_at": "2026-05-05T16:40:06.104841"
+      "thumbnail": "https://img-c.udemycdn.com/course/750x422/6780059_4342_4.jpg",
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:31.142565",
+      "scraped_at": "2026-05-05T23:45:31.142576"
     },
     {
       "title": "Learn Java Multithreading From Scratch By Ashish Gadpayle [Free]",
@@ -100,7 +125,106 @@
       "category": "programming",
       "platform": "Udemy",
       "source": "UdemyFreeCourses.eu.org",
-      "scraped_at": "2026-05-05T16:40:06.326009"
+      "thumbnail": "https://img-c.udemycdn.com/course/750x422/3795048_1a4e_3.jpg",
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:31.481048",
+      "scraped_at": "2026-05-05T23:45:31.481059"
+    },
+    {
+      "title": "Professional Diploma in Warehouse Management",
+      "url": "https://couponscorpion.com/business/professional-diploma-in-warehouse-management/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "business",
+      "platform": "Udemy",
+      "source": "CouponScorpion.com",
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:37.485046",
+      "scraped_at": "2026-05-05T23:45:37.485057"
+    },
+    {
+      "title": "Individual Income Tax Form 1040 Comprehensive Problem",
+      "url": "https://couponscorpion.com/business/individual-income-tax-form-1040-comprehensive-problem/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "general",
+      "platform": "Udemy",
+      "source": "CouponScorpion.com",
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:37.943607",
+      "scraped_at": "2026-05-05T23:45:37.943618"
+    },
+    {
+      "title": "Microsoft PowerPoint: Blank Slide to Powerful Presentation",
+      "url": "https://couponscorpion.com/office-productivity/microsoft-powerpoint-blank-slide-to-powerful-presentation/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "general",
+      "platform": "Udemy",
+      "source": "CouponScorpion.com",
+      "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/google-sheets-in-90-minutes-beginner-crash-course-7odkfw0l8fzttseih7kbo4rqmy0lfk4sxssy3i5qt3u.jpg",
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:38.369916",
+      "scraped_at": "2026-05-05T23:45:38.369927"
+    },
+    {
+      "title": "Microsoft Excel Formulas and Functions: Comprehensive Guide",
+      "url": "https://couponscorpion.com/office-productivity/microsoft-excel-formulas-and-functions-comprehensive-guide/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "design",
+      "platform": "Udemy",
+      "source": "CouponScorpion.com",
+      "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/google-sheets-in-90-minutes-beginner-crash-course-7odkfw0l8fzttseih7kbo4rqmy0lfk4sxssy3i5qt3u.jpg",
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:38.445686",
+      "scraped_at": "2026-05-05T23:45:38.445695"
+    },
+    {
+      "title": "AI For Business Analysts: Business Analyst AI FAST-TRACK",
+      "url": "https://couponscorpion.com/business/ai-for-business-analysts-business-analyst-ai-fast-track/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "business",
+      "platform": "Udemy",
+      "source": "CouponScorpion.com",
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:38.863971",
+      "scraped_at": "2026-05-05T23:45:38.863982"
     },
     {
       "title": "Corporate Finance #4 Leverage & Break-Even Analysis",
@@ -114,7 +238,12 @@
       "category": "business",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:12.576730"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:38.945064",
+      "scraped_at": "2026-05-05T23:45:38.945074"
     },
     {
       "title": "Unleash Your Creative Mind",
@@ -128,7 +257,12 @@
       "category": "general",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:13.055887"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:39.085472",
+      "scraped_at": "2026-05-05T23:45:39.085483"
     },
     {
       "title": "Personal Finance",
@@ -142,91 +276,12 @@
       "category": "business",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:13.473900"
-    },
-    {
-      "title": "Corporate Finance #9 Valuation-Bond, Common /Preferred Stock",
-      "url": "https://couponscorpion.com/finance-accounting/corporate-finance-9-valuation-bond-common-preferred-stock/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "business",
-      "platform": "Udemy",
-      "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:13.897350"
-    },
-    {
-      "title": "Corporate Finance #1 Introduction & Financial Statements",
-      "url": "https://couponscorpion.com/finance-accounting/corporate-finance-1-introduction-financial-statements/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "business",
-      "platform": "Udemy",
-      "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:14.340946"
-    },
-    {
-      "title": "Corp. Finance #14 Financing-Commons Stock & Preferred Stock",
-      "url": "https://couponscorpion.com/finance-accounting/corp-finance-14-financing-commons-stock-preferred-stock/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "business",
-      "platform": "Udemy",
-      "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:14.798545"
-    },
-    {
-      "title": "Corp Finance #17 Merger, Acquisition & Foreign Currency",
-      "url": "https://couponscorpion.com/finance-accounting/corp-finance-17-merger-acquisition-foreign-currency/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "business",
-      "platform": "Udemy",
-      "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:15.199689"
-    },
-    {
-      "title": "QuickBooks Online (QBO) Bookkeeping With Bank Feeds",
-      "url": "https://couponscorpion.com/it-software/quickbooks-online-qbo-bookkeeping-with-bank-feeds/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "design",
-      "platform": "Udemy",
-      "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:15.662068"
-    },
-    {
-      "title": "QuickBooks Desktop Multiple Currencies",
-      "url": "https://couponscorpion.com/finance-accounting/quickbooks-desktop-multiple-currencies/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "design",
-      "platform": "Udemy",
-      "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:16.064174"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:39.269833",
+      "scraped_at": "2026-05-05T23:45:39.269844"
     },
     {
       "title": "Learn Microsoft Flow",
@@ -240,7 +295,126 @@
       "category": "general",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:16.198718"
+      "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/php-for-beginners-the-complete-php-mysql-pdo-course-7oe0cdg8oqol9z65ql3tj91uprzbbsotxc19nlnxhp6.jpg",
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:39.957624",
+      "scraped_at": "2026-05-05T23:45:39.957634"
+    },
+    {
+      "title": "Corporate Finance #9 Valuation-Bond, Common /Preferred Stock",
+      "url": "https://couponscorpion.com/finance-accounting/corporate-finance-9-valuation-bond-common-preferred-stock/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "business",
+      "platform": "Udemy",
+      "source": "CouponScorpion.com",
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:40.030568",
+      "scraped_at": "2026-05-05T23:45:40.030577"
+    },
+    {
+      "title": "Corporate Finance #1 Introduction & Financial Statements",
+      "url": "https://couponscorpion.com/finance-accounting/corporate-finance-1-introduction-financial-statements/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "business",
+      "platform": "Udemy",
+      "source": "CouponScorpion.com",
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:40.194097",
+      "scraped_at": "2026-05-05T23:45:40.194107"
+    },
+    {
+      "title": "Corp. Finance #14 Financing-Commons Stock & Preferred Stock",
+      "url": "https://couponscorpion.com/finance-accounting/corp-finance-14-financing-commons-stock-preferred-stock/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "business",
+      "platform": "Udemy",
+      "source": "CouponScorpion.com",
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:40.309625",
+      "scraped_at": "2026-05-05T23:45:40.309636"
+    },
+    {
+      "title": "Corp Finance #17 Merger, Acquisition & Foreign Currency",
+      "url": "https://couponscorpion.com/finance-accounting/corp-finance-17-merger-acquisition-foreign-currency/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "business",
+      "platform": "Udemy",
+      "source": "CouponScorpion.com",
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:40.461727",
+      "scraped_at": "2026-05-05T23:45:40.461739"
+    },
+    {
+      "title": "QuickBooks Online (QBO) Bookkeeping With Bank Feeds",
+      "url": "https://couponscorpion.com/it-software/quickbooks-online-qbo-bookkeeping-with-bank-feeds/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "design",
+      "platform": "Udemy",
+      "source": "CouponScorpion.com",
+      "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/generative-ai-prompt-engineering-certification-course-7oe1yw9pv4go0mpvy8sg0yeiekz2mhqr7ntixes4na2.jpg",
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:41.616133",
+      "scraped_at": "2026-05-05T23:45:41.616143"
+    },
+    {
+      "title": "QuickBooks Desktop Multiple Currencies",
+      "url": "https://couponscorpion.com/finance-accounting/quickbooks-desktop-multiple-currencies/",
+      "coupon_code": "UNKNOWN",
+      "original_price": "$89.99",
+      "discount_price": "Free",
+      "discount_percent": "100%",
+      "rating": 4.0,
+      "students": "N/A",
+      "category": "design",
+      "platform": "Udemy",
+      "source": "CouponScorpion.com",
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:41.815276",
+      "scraped_at": "2026-05-05T23:45:41.815287"
     },
     {
       "title": "QuickBooks Online Multiple Currencies",
@@ -254,7 +428,12 @@
       "category": "design",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:16.622268"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:42.017289",
+      "scraped_at": "2026-05-05T23:45:42.017299"
     },
     {
       "title": "Excel Accounting Problem",
@@ -268,7 +447,12 @@
       "category": "business",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:17.065183"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:42.241206",
+      "scraped_at": "2026-05-05T23:45:42.241217"
     },
     {
       "title": "Mastering QuickBooks Online 2026: A Comprehensive Guide",
@@ -282,7 +466,12 @@
       "category": "design",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:17.145706"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:42.313402",
+      "scraped_at": "2026-05-05T23:45:42.313412"
     },
     {
       "title": "Excel Power Query: Tiefgehende Datenanalyse und Manipulation",
@@ -296,7 +485,12 @@
       "category": "data",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:18.335490"
+      "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/google-sheets-in-90-minutes-beginner-crash-course-7odkfw0l8fzttseih7kbo4rqmy0lfk4sxssy3i5qt3u.jpg",
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:42.388762",
+      "scraped_at": "2026-05-05T23:45:42.388772"
     },
     {
       "title": "Excel Power Query – Lade Daten aller Art direkt in Excel!",
@@ -310,7 +504,12 @@
       "category": "data",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:18.503174"
+      "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/google-sheets-in-90-minutes-beginner-crash-course-7odkfw0l8fzttseih7kbo4rqmy0lfk4sxssy3i5qt3u.jpg",
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:42.462645",
+      "scraped_at": "2026-05-05T23:45:42.462654"
     },
     {
       "title": "Workshops und Seminare professionell vorbereiten und leiten",
@@ -324,7 +523,12 @@
       "category": "general",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:18.915257"
+      "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/bestseller-udemy-course-creation-masterroom-unofficial-7od871144qtn96w06m8rykraxuunudw3b2pwp6lt9lm.jpg",
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:42.561274",
+      "scraped_at": "2026-05-05T23:45:42.561283"
     },
     {
       "title": "Complete Guide to Cybersecurity: Network & Data Protection",
@@ -338,7 +542,12 @@
       "category": "design",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:18.998694"
+      "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/generative-ai-prompt-engineering-certification-course-7oe1yw9pv4go0mpvy8sg0yeiekz2mhqr7ntixes4na2.jpg",
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:42.645641",
+      "scraped_at": "2026-05-05T23:45:42.645650"
     },
     {
       "title": "Advanced Adobe Premiere Pro Add Hollywood-level Effects",
@@ -352,7 +561,12 @@
       "category": "design",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:19.440102"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:43.155334",
+      "scraped_at": "2026-05-05T23:45:43.155344"
     },
     {
       "title": "Master Retrieval Augmented Generation & Data Pipelines",
@@ -366,7 +580,12 @@
       "category": "general",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:19.659826"
+      "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/generative-ai-prompt-engineering-certification-course-7oe1yw9pv4go0mpvy8sg0yeiekz2mhqr7ntixes4na2.jpg",
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:43.231421",
+      "scraped_at": "2026-05-05T23:45:43.231430"
     },
     {
       "title": "Strategic AI Leadership & Transformation",
@@ -380,7 +599,12 @@
       "category": "business",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:19.741024"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:43.318736",
+      "scraped_at": "2026-05-05T23:45:43.318745"
     },
     {
       "title": "Generative AI Prompt Engineering Certification Course",
@@ -394,7 +618,12 @@
       "category": "data",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:19.823072"
+      "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/generative-ai-prompt-engineering-certification-course-7oe1yw9psor50xgsmq0csvp2przj8dnuogqhfsqpm2q.jpg",
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:44.510144",
+      "scraped_at": "2026-05-05T23:45:44.510154"
     },
     {
       "title": "The Professional’s Guide to Credit Portfolio Management",
@@ -408,7 +637,12 @@
       "category": "business",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:20.239328"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:44.652301",
+      "scraped_at": "2026-05-05T23:45:44.652312"
     },
     {
       "title": "Internal Communications Mastery: PR & Employee Relations [EN",
@@ -422,7 +656,12 @@
       "category": "personal",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:20.675374"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:44.733043",
+      "scraped_at": "2026-05-05T23:45:44.733054"
     },
     {
       "title": "Certified Well-Being Practitioner Employee Wellness Pro [EN]",
@@ -436,7 +675,12 @@
       "category": "it",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:21.123485"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:44.841841",
+      "scraped_at": "2026-05-05T23:45:44.841854"
     },
     {
       "title": "Organizational Development Expert [EN]",
@@ -450,7 +694,12 @@
       "category": "general",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:21.579028"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:45.082088",
+      "scraped_at": "2026-05-05T23:45:45.082099"
     },
     {
       "title": "Digital HR Strategist: HRIS LMS AI ChatGPT & ATS [EN]",
@@ -464,7 +713,12 @@
       "category": "data",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:22.784474"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:45.160431",
+      "scraped_at": "2026-05-05T23:45:45.160441"
     },
     {
       "title": "Employee Performance Review, Appraisal and Evaluation [EN]",
@@ -478,7 +732,12 @@
       "category": "general",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:23.300514"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:45.297018",
+      "scraped_at": "2026-05-05T23:45:45.297043"
     },
     {
       "title": "Online Training for Employees: Internal Online Learning [EN]",
@@ -492,7 +751,12 @@
       "category": "general",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:23.734304"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:45.500137",
+      "scraped_at": "2026-05-05T23:45:45.500148"
     },
     {
       "title": "HR Analytics Architect: Data-Driven HR & Forecasting [EN]",
@@ -506,7 +770,12 @@
       "category": "data",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:24.343644"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:45.620386",
+      "scraped_at": "2026-05-05T23:45:45.620396"
     },
     {
       "title": "KPI Architect Design KPIs from Critical Success Factors [EN]",
@@ -520,7 +789,12 @@
       "category": "design",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:24.756491"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:45.894982",
+      "scraped_at": "2026-05-05T23:45:45.894992"
     },
     {
       "title": "Certified Benefits & Perks Pro: Strategic Reward System [EN]",
@@ -534,7 +808,12 @@
       "category": "it",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:25.156923"
+      "thumbnail_scraped": null,
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:46.039709",
+      "scraped_at": "2026-05-05T23:45:46.039720"
     },
     {
       "title": "Scrum Master Exam Preparation 2026 | 1500 Practice Questions",
@@ -548,80 +827,130 @@
       "category": "business",
       "platform": "Udemy",
       "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:25.587042"
-    },
-    {
-      "title": "Certified AI Recruiter: Awtomasyon & Optimisasyon [FIL]",
-      "url": "https://couponscorpion.com/business/certified-ai-recruiter-awtomasyon-optimisasyon-fil/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "design",
-      "platform": "Udemy",
-      "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:25.670555"
-    },
-    {
-      "title": "Bond Markets & Fixed Income Securities Mastery 2026",
-      "url": "https://couponscorpion.com/finance-accounting/bond-markets-fixed-income-securities-mastery-2026/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "general",
-      "platform": "Udemy",
-      "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:25.752484"
-    },
-    {
-      "title": "Business Writing: Technical Writing & Communication Skills",
-      "url": "https://couponscorpion.com/marketing/business-writing-technical-writing-communication-skills/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "business",
-      "platform": "Udemy",
-      "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:25.837208"
-    },
-    {
-      "title": "The Complete Commercial Credit and Risk Analysis Course 2026",
-      "url": "https://couponscorpion.com/finance-accounting/the-complete-commercial-credit-and-risk-analysis-course-2026/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "general",
-      "platform": "Udemy",
-      "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:25.920762"
-    },
-    {
-      "title": "PHP for Beginners: The Complete PHP MySQL PDO Course",
-      "url": "https://couponscorpion.com/development/php-for-beginners-the-complete-php-mysql-pdo-course/",
-      "coupon_code": "UNKNOWN",
-      "original_price": "$89.99",
-      "discount_price": "Free",
-      "discount_percent": "100%",
-      "rating": 4.0,
-      "students": "N/A",
-      "category": "programming",
-      "platform": "Udemy",
-      "source": "CouponScorpion.com",
-      "scraped_at": "2026-05-05T16:40:26.331718"
+      "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/generative-ai-prompt-engineering-certification-course-7oe1yw9pv4go0mpvy8sg0yeiekz2mhqr7ntixes4na2.jpg",
+      "thumbnail": null,
+      "instructor": null,
+      "description": null,
+      "expires_at": "2026-05-08T23:45:46.114673",
+      "scraped_at": "2026-05-05T23:45:46.114683"
     }
   ],
   "by_category": {
+    "data": [
+      {
+        "title": "Generative AI Simplified | Udemy Free Course 2026",
+        "url": "https://www.udemy.com/course/generative-ai-simplified/",
+        "coupon_code": "UNKNOWN",
+        "original_price": "$89.99",
+        "discount_price": "Free",
+        "discount_percent": "100%",
+        "rating": 4.0,
+        "students": "N/A",
+        "category": "data",
+        "platform": "Udemy",
+        "source": "UdemyFree.eu.org",
+        "thumbnail": "https://img-c.udemycdn.com/course/750x422/6223571_5246.jpg",
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:29.009196",
+        "scraped_at": "2026-05-05T23:45:29.009206"
+      },
+      {
+        "title": "Excel Power Query: Tiefgehende Datenanalyse und Manipulation",
+        "url": "https://couponscorpion.com/office-productivity/excel-power-query-tiefgehende-datenanalyse-und-manipulation/",
+        "coupon_code": "UNKNOWN",
+        "original_price": "$89.99",
+        "discount_price": "Free",
+        "discount_percent": "100%",
+        "rating": 4.0,
+        "students": "N/A",
+        "category": "data",
+        "platform": "Udemy",
+        "source": "CouponScorpion.com",
+        "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/google-sheets-in-90-minutes-beginner-crash-course-7odkfw0l8fzttseih7kbo4rqmy0lfk4sxssy3i5qt3u.jpg",
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:42.388762",
+        "scraped_at": "2026-05-05T23:45:42.388772"
+      },
+      {
+        "title": "Excel Power Query – Lade Daten aller Art direkt in Excel!",
+        "url": "https://couponscorpion.com/office-productivity/excel-power-query-lade-daten-aller-art-direkt-in-excel/",
+        "coupon_code": "UNKNOWN",
+        "original_price": "$89.99",
+        "discount_price": "Free",
+        "discount_percent": "100%",
+        "rating": 4.0,
+        "students": "N/A",
+        "category": "data",
+        "platform": "Udemy",
+        "source": "CouponScorpion.com",
+        "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/google-sheets-in-90-minutes-beginner-crash-course-7odkfw0l8fzttseih7kbo4rqmy0lfk4sxssy3i5qt3u.jpg",
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:42.462645",
+        "scraped_at": "2026-05-05T23:45:42.462654"
+      },
+      {
+        "title": "Generative AI Prompt Engineering Certification Course",
+        "url": "https://couponscorpion.com/it-software/generative-ai-prompt-engineering-certification-course/",
+        "coupon_code": "UNKNOWN",
+        "original_price": "$89.99",
+        "discount_price": "Free",
+        "discount_percent": "100%",
+        "rating": 4.0,
+        "students": "N/A",
+        "category": "data",
+        "platform": "Udemy",
+        "source": "CouponScorpion.com",
+        "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/generative-ai-prompt-engineering-certification-course-7oe1yw9psor50xgsmq0csvp2przj8dnuogqhfsqpm2q.jpg",
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:44.510144",
+        "scraped_at": "2026-05-05T23:45:44.510154"
+      },
+      {
+        "title": "Digital HR Strategist: HRIS LMS AI ChatGPT & ATS [EN]",
+        "url": "https://couponscorpion.com/business/digital-hr-strategist-hris-lms-ai-chatgpt-ats-en/",
+        "coupon_code": "UNKNOWN",
+        "original_price": "$89.99",
+        "discount_price": "Free",
+        "discount_percent": "100%",
+        "rating": 4.0,
+        "students": "N/A",
+        "category": "data",
+        "platform": "Udemy",
+        "source": "CouponScorpion.com",
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:45.160431",
+        "scraped_at": "2026-05-05T23:45:45.160441"
+      },
+      {
+        "title": "HR Analytics Architect: Data-Driven HR & Forecasting [EN]",
+        "url": "https://couponscorpion.com/business/hr-analytics-architect-data-driven-hr-forecasting-en/",
+        "coupon_code": "UNKNOWN",
+        "original_price": "$89.99",
+        "discount_price": "Free",
+        "discount_percent": "100%",
+        "rating": 4.0,
+        "students": "N/A",
+        "category": "data",
+        "platform": "Udemy",
+        "source": "CouponScorpion.com",
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:45.620386",
+        "scraped_at": "2026-05-05T23:45:45.620396"
+      }
+    ],
     "programming": [
       {
         "title": "Learn Python from scratch with easy example & explanation | Udemy Free Course 2026",
@@ -635,7 +964,11 @@
         "category": "programming",
         "platform": "Udemy",
         "source": "UdemyFree.eu.org",
-        "scraped_at": "2026-05-05T16:40:04.596853"
+        "thumbnail": "https://img-c.udemycdn.com/course/750x422/5550330_ec0e.jpg",
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:29.302193",
+        "scraped_at": "2026-05-05T23:45:29.302203"
       },
       {
         "title": "Create Your Own Link-in-Bio Website with HTML & CSS [FREE UDEMY COURSES]",
@@ -649,7 +982,11 @@
         "category": "programming",
         "platform": "Udemy",
         "source": "UdemyFreeCourses.eu.org",
-        "scraped_at": "2026-05-05T16:40:06.104841"
+        "thumbnail": "https://img-c.udemycdn.com/course/750x422/6780059_4342_4.jpg",
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:31.142565",
+        "scraped_at": "2026-05-05T23:45:31.142576"
       },
       {
         "title": "Learn Java Multithreading From Scratch By Ashish Gadpayle [Free]",
@@ -663,21 +1000,11 @@
         "category": "programming",
         "platform": "Udemy",
         "source": "UdemyFreeCourses.eu.org",
-        "scraped_at": "2026-05-05T16:40:06.326009"
-      },
-      {
-        "title": "PHP for Beginners: The Complete PHP MySQL PDO Course",
-        "url": "https://couponscorpion.com/development/php-for-beginners-the-complete-php-mysql-pdo-course/",
-        "coupon_code": "UNKNOWN",
-        "original_price": "$89.99",
-        "discount_price": "Free",
-        "discount_percent": "100%",
-        "rating": 4.0,
-        "students": "N/A",
-        "category": "programming",
-        "platform": "Udemy",
-        "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:26.331718"
+        "thumbnail": "https://img-c.udemycdn.com/course/750x422/3795048_1a4e_3.jpg",
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:31.481048",
+        "scraped_at": "2026-05-05T23:45:31.481059"
       }
     ],
     "design": [
@@ -693,7 +1020,11 @@
         "category": "design",
         "platform": "Udemy",
         "source": "UdemyFree.eu.org",
-        "scraped_at": "2026-05-05T16:40:04.714924"
+        "thumbnail": "https://img-c.udemycdn.com/course/750x422/3910270_869d_5.jpg",
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:29.633950",
+        "scraped_at": "2026-05-05T23:45:29.633960"
       },
       {
         "title": "Excel Automation using Uipath [Free]",
@@ -707,7 +1038,30 @@
         "category": "design",
         "platform": "Udemy",
         "source": "UdemyFreeCourses.eu.org",
-        "scraped_at": "2026-05-05T16:40:05.970354"
+        "thumbnail": "https://img-c.udemycdn.com/course/750x422/4192016_0076.jpg",
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:30.815292",
+        "scraped_at": "2026-05-05T23:45:30.815303"
+      },
+      {
+        "title": "Microsoft Excel Formulas and Functions: Comprehensive Guide",
+        "url": "https://couponscorpion.com/office-productivity/microsoft-excel-formulas-and-functions-comprehensive-guide/",
+        "coupon_code": "UNKNOWN",
+        "original_price": "$89.99",
+        "discount_price": "Free",
+        "discount_percent": "100%",
+        "rating": 4.0,
+        "students": "N/A",
+        "category": "design",
+        "platform": "Udemy",
+        "source": "CouponScorpion.com",
+        "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/google-sheets-in-90-minutes-beginner-crash-course-7odkfw0l8fzttseih7kbo4rqmy0lfk4sxssy3i5qt3u.jpg",
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:38.445686",
+        "scraped_at": "2026-05-05T23:45:38.445695"
       },
       {
         "title": "QuickBooks Online (QBO) Bookkeeping With Bank Feeds",
@@ -721,7 +1075,12 @@
         "category": "design",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:15.662068"
+        "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/generative-ai-prompt-engineering-certification-course-7oe1yw9pv4go0mpvy8sg0yeiekz2mhqr7ntixes4na2.jpg",
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:41.616133",
+        "scraped_at": "2026-05-05T23:45:41.616143"
       },
       {
         "title": "QuickBooks Desktop Multiple Currencies",
@@ -735,7 +1094,12 @@
         "category": "design",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:16.064174"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:41.815276",
+        "scraped_at": "2026-05-05T23:45:41.815287"
       },
       {
         "title": "QuickBooks Online Multiple Currencies",
@@ -749,7 +1113,12 @@
         "category": "design",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:16.622268"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:42.017289",
+        "scraped_at": "2026-05-05T23:45:42.017299"
       },
       {
         "title": "Mastering QuickBooks Online 2026: A Comprehensive Guide",
@@ -763,7 +1132,12 @@
         "category": "design",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:17.145706"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:42.313402",
+        "scraped_at": "2026-05-05T23:45:42.313412"
       },
       {
         "title": "Complete Guide to Cybersecurity: Network & Data Protection",
@@ -777,7 +1151,12 @@
         "category": "design",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:18.998694"
+        "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/generative-ai-prompt-engineering-certification-course-7oe1yw9pv4go0mpvy8sg0yeiekz2mhqr7ntixes4na2.jpg",
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:42.645641",
+        "scraped_at": "2026-05-05T23:45:42.645650"
       },
       {
         "title": "Advanced Adobe Premiere Pro Add Hollywood-level Effects",
@@ -791,7 +1170,12 @@
         "category": "design",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:19.440102"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:43.155334",
+        "scraped_at": "2026-05-05T23:45:43.155344"
       },
       {
         "title": "KPI Architect Design KPIs from Critical Success Factors [EN]",
@@ -805,27 +1189,18 @@
         "category": "design",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:24.756491"
-      },
-      {
-        "title": "Certified AI Recruiter: Awtomasyon & Optimisasyon [FIL]",
-        "url": "https://couponscorpion.com/business/certified-ai-recruiter-awtomasyon-optimisasyon-fil/",
-        "coupon_code": "UNKNOWN",
-        "original_price": "$89.99",
-        "discount_price": "Free",
-        "discount_percent": "100%",
-        "rating": 4.0,
-        "students": "N/A",
-        "category": "design",
-        "platform": "Udemy",
-        "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:25.670555"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:45.894982",
+        "scraped_at": "2026-05-05T23:45:45.894992"
       }
     ],
     "business": [
       {
-        "title": "How to turn ML Outputs into Business Decisions with LLMs | Udemy Free Course 2026",
-        "url": "https://www.udemy.com/course/talk-to-your-data-strategic-insights-with-llms/",
+        "title": "Professional Diploma in Warehouse Management",
+        "url": "https://couponscorpion.com/business/professional-diploma-in-warehouse-management/",
         "coupon_code": "UNKNOWN",
         "original_price": "$89.99",
         "discount_price": "Free",
@@ -834,8 +1209,32 @@
         "students": "N/A",
         "category": "business",
         "platform": "Udemy",
-        "source": "UdemyFree.eu.org",
-        "scraped_at": "2026-05-05T16:40:05.059009"
+        "source": "CouponScorpion.com",
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:37.485046",
+        "scraped_at": "2026-05-05T23:45:37.485057"
+      },
+      {
+        "title": "AI For Business Analysts: Business Analyst AI FAST-TRACK",
+        "url": "https://couponscorpion.com/business/ai-for-business-analysts-business-analyst-ai-fast-track/",
+        "coupon_code": "UNKNOWN",
+        "original_price": "$89.99",
+        "discount_price": "Free",
+        "discount_percent": "100%",
+        "rating": 4.0,
+        "students": "N/A",
+        "category": "business",
+        "platform": "Udemy",
+        "source": "CouponScorpion.com",
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:38.863971",
+        "scraped_at": "2026-05-05T23:45:38.863982"
       },
       {
         "title": "Corporate Finance #4 Leverage & Break-Even Analysis",
@@ -849,7 +1248,12 @@
         "category": "business",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:12.576730"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:38.945064",
+        "scraped_at": "2026-05-05T23:45:38.945074"
       },
       {
         "title": "Personal Finance",
@@ -863,7 +1267,12 @@
         "category": "business",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:13.473900"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:39.269833",
+        "scraped_at": "2026-05-05T23:45:39.269844"
       },
       {
         "title": "Corporate Finance #9 Valuation-Bond, Common /Preferred Stock",
@@ -877,7 +1286,12 @@
         "category": "business",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:13.897350"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:40.030568",
+        "scraped_at": "2026-05-05T23:45:40.030577"
       },
       {
         "title": "Corporate Finance #1 Introduction & Financial Statements",
@@ -891,7 +1305,12 @@
         "category": "business",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:14.340946"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:40.194097",
+        "scraped_at": "2026-05-05T23:45:40.194107"
       },
       {
         "title": "Corp. Finance #14 Financing-Commons Stock & Preferred Stock",
@@ -905,7 +1324,12 @@
         "category": "business",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:14.798545"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:40.309625",
+        "scraped_at": "2026-05-05T23:45:40.309636"
       },
       {
         "title": "Corp Finance #17 Merger, Acquisition & Foreign Currency",
@@ -919,7 +1343,12 @@
         "category": "business",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:15.199689"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:40.461727",
+        "scraped_at": "2026-05-05T23:45:40.461739"
       },
       {
         "title": "Excel Accounting Problem",
@@ -933,7 +1362,12 @@
         "category": "business",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:17.065183"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:42.241206",
+        "scraped_at": "2026-05-05T23:45:42.241217"
       },
       {
         "title": "Strategic AI Leadership & Transformation",
@@ -947,7 +1381,12 @@
         "category": "business",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:19.741024"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:43.318736",
+        "scraped_at": "2026-05-05T23:45:43.318745"
       },
       {
         "title": "The Professional’s Guide to Credit Portfolio Management",
@@ -961,7 +1400,12 @@
         "category": "business",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:20.239328"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:44.652301",
+        "scraped_at": "2026-05-05T23:45:44.652312"
       },
       {
         "title": "Scrum Master Exam Preparation 2026 | 1500 Practice Questions",
@@ -975,24 +1419,53 @@
         "category": "business",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:25.587042"
-      },
+        "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/generative-ai-prompt-engineering-certification-course-7oe1yw9pv4go0mpvy8sg0yeiekz2mhqr7ntixes4na2.jpg",
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:46.114673",
+        "scraped_at": "2026-05-05T23:45:46.114683"
+      }
+    ],
+    "general": [
       {
-        "title": "Business Writing: Technical Writing & Communication Skills",
-        "url": "https://couponscorpion.com/marketing/business-writing-technical-writing-communication-skills/",
+        "title": "Individual Income Tax Form 1040 Comprehensive Problem",
+        "url": "https://couponscorpion.com/business/individual-income-tax-form-1040-comprehensive-problem/",
         "coupon_code": "UNKNOWN",
         "original_price": "$89.99",
         "discount_price": "Free",
         "discount_percent": "100%",
         "rating": 4.0,
         "students": "N/A",
-        "category": "business",
+        "category": "general",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:25.837208"
-      }
-    ],
-    "general": [
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:37.943607",
+        "scraped_at": "2026-05-05T23:45:37.943618"
+      },
+      {
+        "title": "Microsoft PowerPoint: Blank Slide to Powerful Presentation",
+        "url": "https://couponscorpion.com/office-productivity/microsoft-powerpoint-blank-slide-to-powerful-presentation/",
+        "coupon_code": "UNKNOWN",
+        "original_price": "$89.99",
+        "discount_price": "Free",
+        "discount_percent": "100%",
+        "rating": 4.0,
+        "students": "N/A",
+        "category": "general",
+        "platform": "Udemy",
+        "source": "CouponScorpion.com",
+        "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/google-sheets-in-90-minutes-beginner-crash-course-7odkfw0l8fzttseih7kbo4rqmy0lfk4sxssy3i5qt3u.jpg",
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:38.369916",
+        "scraped_at": "2026-05-05T23:45:38.369927"
+      },
       {
         "title": "Unleash Your Creative Mind",
         "url": "https://couponscorpion.com/personal-development/unleash-your-creative-mind/",
@@ -1005,7 +1478,12 @@
         "category": "general",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:13.055887"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:39.085472",
+        "scraped_at": "2026-05-05T23:45:39.085483"
       },
       {
         "title": "Learn Microsoft Flow",
@@ -1019,7 +1497,12 @@
         "category": "general",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:16.198718"
+        "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/php-for-beginners-the-complete-php-mysql-pdo-course-7oe0cdg8oqol9z65ql3tj91uprzbbsotxc19nlnxhp6.jpg",
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:39.957624",
+        "scraped_at": "2026-05-05T23:45:39.957634"
       },
       {
         "title": "Workshops und Seminare professionell vorbereiten und leiten",
@@ -1033,7 +1516,12 @@
         "category": "general",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:18.915257"
+        "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/bestseller-udemy-course-creation-masterroom-unofficial-7od871144qtn96w06m8rykraxuunudw3b2pwp6lt9lm.jpg",
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:42.561274",
+        "scraped_at": "2026-05-05T23:45:42.561283"
       },
       {
         "title": "Master Retrieval Augmented Generation & Data Pipelines",
@@ -1047,7 +1535,12 @@
         "category": "general",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:19.659826"
+        "thumbnail_scraped": "https://couponscorpion.com/wp-content/uploads/thumbs_dir/generative-ai-prompt-engineering-certification-course-7oe1yw9pv4go0mpvy8sg0yeiekz2mhqr7ntixes4na2.jpg",
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:43.231421",
+        "scraped_at": "2026-05-05T23:45:43.231430"
       },
       {
         "title": "Organizational Development Expert [EN]",
@@ -1061,7 +1554,12 @@
         "category": "general",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:21.579028"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:45.082088",
+        "scraped_at": "2026-05-05T23:45:45.082099"
       },
       {
         "title": "Employee Performance Review, Appraisal and Evaluation [EN]",
@@ -1075,7 +1573,12 @@
         "category": "general",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:23.300514"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:45.297018",
+        "scraped_at": "2026-05-05T23:45:45.297043"
       },
       {
         "title": "Online Training for Employees: Internal Online Learning [EN]",
@@ -1089,107 +1592,12 @@
         "category": "general",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:23.734304"
-      },
-      {
-        "title": "Bond Markets & Fixed Income Securities Mastery 2026",
-        "url": "https://couponscorpion.com/finance-accounting/bond-markets-fixed-income-securities-mastery-2026/",
-        "coupon_code": "UNKNOWN",
-        "original_price": "$89.99",
-        "discount_price": "Free",
-        "discount_percent": "100%",
-        "rating": 4.0,
-        "students": "N/A",
-        "category": "general",
-        "platform": "Udemy",
-        "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:25.752484"
-      },
-      {
-        "title": "The Complete Commercial Credit and Risk Analysis Course 2026",
-        "url": "https://couponscorpion.com/finance-accounting/the-complete-commercial-credit-and-risk-analysis-course-2026/",
-        "coupon_code": "UNKNOWN",
-        "original_price": "$89.99",
-        "discount_price": "Free",
-        "discount_percent": "100%",
-        "rating": 4.0,
-        "students": "N/A",
-        "category": "general",
-        "platform": "Udemy",
-        "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:25.920762"
-      }
-    ],
-    "data": [
-      {
-        "title": "Excel Power Query: Tiefgehende Datenanalyse und Manipulation",
-        "url": "https://couponscorpion.com/office-productivity/excel-power-query-tiefgehende-datenanalyse-und-manipulation/",
-        "coupon_code": "UNKNOWN",
-        "original_price": "$89.99",
-        "discount_price": "Free",
-        "discount_percent": "100%",
-        "rating": 4.0,
-        "students": "N/A",
-        "category": "data",
-        "platform": "Udemy",
-        "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:18.335490"
-      },
-      {
-        "title": "Excel Power Query – Lade Daten aller Art direkt in Excel!",
-        "url": "https://couponscorpion.com/office-productivity/excel-power-query-lade-daten-aller-art-direkt-in-excel/",
-        "coupon_code": "UNKNOWN",
-        "original_price": "$89.99",
-        "discount_price": "Free",
-        "discount_percent": "100%",
-        "rating": 4.0,
-        "students": "N/A",
-        "category": "data",
-        "platform": "Udemy",
-        "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:18.503174"
-      },
-      {
-        "title": "Generative AI Prompt Engineering Certification Course",
-        "url": "https://couponscorpion.com/it-software/generative-ai-prompt-engineering-certification-course/",
-        "coupon_code": "UNKNOWN",
-        "original_price": "$89.99",
-        "discount_price": "Free",
-        "discount_percent": "100%",
-        "rating": 4.0,
-        "students": "N/A",
-        "category": "data",
-        "platform": "Udemy",
-        "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:19.823072"
-      },
-      {
-        "title": "Digital HR Strategist: HRIS LMS AI ChatGPT & ATS [EN]",
-        "url": "https://couponscorpion.com/business/digital-hr-strategist-hris-lms-ai-chatgpt-ats-en/",
-        "coupon_code": "UNKNOWN",
-        "original_price": "$89.99",
-        "discount_price": "Free",
-        "discount_percent": "100%",
-        "rating": 4.0,
-        "students": "N/A",
-        "category": "data",
-        "platform": "Udemy",
-        "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:22.784474"
-      },
-      {
-        "title": "HR Analytics Architect: Data-Driven HR & Forecasting [EN]",
-        "url": "https://couponscorpion.com/business/hr-analytics-architect-data-driven-hr-forecasting-en/",
-        "coupon_code": "UNKNOWN",
-        "original_price": "$89.99",
-        "discount_price": "Free",
-        "discount_percent": "100%",
-        "rating": 4.0,
-        "students": "N/A",
-        "category": "data",
-        "platform": "Udemy",
-        "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:24.343644"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:45.500137",
+        "scraped_at": "2026-05-05T23:45:45.500148"
       }
     ],
     "personal": [
@@ -1205,7 +1613,12 @@
         "category": "personal",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:20.675374"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:44.733043",
+        "scraped_at": "2026-05-05T23:45:44.733054"
       }
     ],
     "it": [
@@ -1221,7 +1634,12 @@
         "category": "it",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:21.123485"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:44.841841",
+        "scraped_at": "2026-05-05T23:45:44.841854"
       },
       {
         "title": "Certified Benefits & Perks Pro: Strategic Reward System [EN]",
@@ -1235,7 +1653,12 @@
         "category": "it",
         "platform": "Udemy",
         "source": "CouponScorpion.com",
-        "scraped_at": "2026-05-05T16:40:25.156923"
+        "thumbnail_scraped": null,
+        "thumbnail": null,
+        "instructor": null,
+        "description": null,
+        "expires_at": "2026-05-08T23:45:46.039709",
+        "scraped_at": "2026-05-05T23:45:46.039720"
       }
     ]
   }
