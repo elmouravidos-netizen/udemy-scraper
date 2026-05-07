@@ -1,679 +1,638 @@
+"""
+Udemy Free Courses Scraper  v3
+- 10 sources
+- Dedup by Udemy course slug (ID) — zero duplicates
+- Real thumbnails via Udemy page scraping (og:image / JSON-LD)
+- Saves to Supabase (upsert) + udemy_deals.json (backup)
+- Target: 500+ courses per run
+"""
+
 import requests
 from bs4 import BeautifulSoup
 import json
-from datetime import datetime, timedelta
 import re
 import time
-import urllib.parse
+import os
+from datetime import datetime, timedelta
+from urllib.parse import quote
+
+# ── Supabase credentials from env ─────────────────────────────────────────────
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")   # service_role key
 
 HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-    'Accept-Language': 'en-US,en;q=0.5',
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
 }
 
-# Separate headers for Udemy requests (mimics a real browser better)
 UDEMY_HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-    'Accept-Language': 'en-US,en;q=0.9',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Cache-Control': 'no-cache',
-    'Pragma': 'no-cache',
-    'Sec-Fetch-Dest': 'document',
-    'Sec-Fetch-Mode': 'navigate',
-    'Sec-Fetch-Site': 'none',
-    'Sec-Fetch-User': '?1',
-    'Upgrade-Insecure-Requests': '1',
+    **HEADERS,
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Upgrade-Insecure-Requests": "1",
 }
 
 
-class UltimateUdemyScraper:
+class ProUdemyScraper:
 
     def __init__(self):
-        self.courses = []
-        self.seen_titles = set()
+        self.courses = {}          # keyed by course slug — zero duplicates
         self.session = requests.Session()
         self.session.headers.update(HEADERS)
-        self.udemy_delay = 1.5  # Seconds between Udemy page requests
+        self.stats = {
+            "sources":    {},
+            "expired":    0,
+            "thumbnails": {"udemy_page": 0, "blog": 0, "placeholder": 0},
+        }
+        self.supabase = None
+        if SUPABASE_URL and SUPABASE_KEY:
+            try:
+                from supabase import create_client
+                self.supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+                print("✅ Supabase connected")
+            except Exception as e:
+                print(f"⚠️  Supabase connection failed: {e}")
 
     # ─────────────────────────────────────────────
-    # CORE FETCH
+    # UTILITIES
     # ─────────────────────────────────────────────
 
-    def fetch(self, url, retries=2, custom_headers=None):
+    def fetch(self, url, retries=3, delay=1.0, custom_headers=None):
         for attempt in range(retries):
             try:
-                print(f"  Fetching: {url[:70]}...")
-                headers = custom_headers or HEADERS
-                resp = self.session.get(url, timeout=20, headers=headers)
+                resp = self.session.get(
+                    url, timeout=20,
+                    headers=custom_headers or HEADERS,
+                    allow_redirects=True,
+                )
+                if resp.status_code == 429:
+                    wait = 5 * (attempt + 1)
+                    print(f"  ⏳ Rate limited — waiting {wait}s")
+                    time.sleep(wait)
+                    continue
+                if resp.status_code in (403, 503):
+                    print(f"  🚫 Blocked ({resp.status_code})")
+                    return None
                 resp.raise_for_status()
                 return resp.text
+            except requests.exceptions.Timeout:
+                print(f"  ⏱️  Timeout (attempt {attempt+1})")
             except Exception as e:
-                print(f"  Error: {e}")
-                if attempt < retries - 1:
-                    time.sleep(1.5)
+                print(f"  ❌ {e}")
+            if attempt < retries - 1:
+                time.sleep(delay)
         return None
 
-    # ─────────────────────────────────────────────
-    # ✅ FIXED: THUMBNAIL FROM UDEMY COURSE PAGE
-    # ─────────────────────────────────────────────
-
-    def get_udemy_course_meta(self, udemy_url):
-        """
-        Fetch real thumbnail, title, instructor, rating by scraping
-        the Udemy course page directly.
-
-        Strategy order:
-          1. og:image  meta tag  → most reliable thumbnail
-          2. twitter:image meta tag  → good backup
-          3. JSON-LD application/ld+json → instructor, rating, students, description
-          4. __NEXT_DATA__ JSON embedded in page → fallback for all fields
-        """
-        if not udemy_url or 'udemy.com/course/' not in udemy_url:
+    def extract_slug(self, url):
+        if not url:
             return None
+        m = re.search(r'udemy\.com/course/([^/?#]+)', url)
+        return m.group(1).lower().strip('/') if m else None
 
-        # Normalise URL — strip query params for a clean page load,
-        # then we'll re-attach the coupon later on the course object.
-        clean_url = re.sub(r'\?.*$', '', udemy_url.rstrip('/')) + '/'
+    def extract_coupon(self, url):
+        if not url:
+            return None
+        m = re.search(r'[?&]coupon[Cc]ode=([A-Za-z0-9_\-]+)', url)
+        return m.group(1) if m else None
 
+    def detect_category(self, title, desc=""):
+        text = (title + " " + (desc or "")).lower()
+        cats = {
+            "programming":  ["python","java","javascript","coding","programming","developer",
+                             "html","css","react","node","django","php","kotlin","android",
+                             "ios","swift","c++","c#","golang","rust","angular","vue",
+                             "typescript","flutter","spring","laravel"],
+            "business":     ["business","marketing","seo","entrepreneur","management",
+                             "finance","accounting","sales","startup","leadership","mba",
+                             "project management","agile","scrum","dropshipping","e-commerce"],
+            "design":       ["design","photoshop","illustrator","ui ","ux ","graphic",
+                             "drawing","figma","canva","adobe","blender","3d","animation",
+                             "video editing","premiere","after effects","davinci","logo"],
+            "data":         ["data science","machine learning"," ml ","ai ","analytics",
+                             "power bi","tableau","deep learning","nlp","artificial intelligence",
+                             "pandas","numpy","tensorflow","pytorch","big data"],
+            "it":           ["aws","cloud","linux","networking","cybersecurity","hacking",
+                             "comptia","cisco","devops","docker","kubernetes","azure","gcp",
+                             "server","terraform","certified","ethical hacking"],
+            "personal":     ["personal development","communication","productivity",
+                             "time management","mindset","meditation","public speaking",
+                             "confidence","habits","self-improvement"],
+            "photography":  ["photography","camera","lightroom","photo editing","portrait",
+                             "landscape","drone"],
+            "music":        ["music","guitar","piano","drums","singing","dj","mixing",
+                             "music production","fl studio","ableton"],
+            "health":       ["health","fitness","yoga","nutrition","diet","mental health",
+                             "workout","exercise"],
+            "language":     ["english","spanish","french","arabic","german","language",
+                             "ielts","toefl"],
+        }
+        for cat, keywords in cats.items():
+            if any(kw in text for kw in keywords):
+                return cat
+        return "general"
+
+    def clean_title(self, title):
+        title = re.sub(r'\s+', ' ', title).strip()
+        title = re.sub(r'\s*[\|\-–]\s*(udemy|free|course|coupon).*$', '', title, flags=re.I)
+        return title
+
+    # ─────────────────────────────────────────────
+    # THUMBNAIL FROM UDEMY COURSE PAGE
+    # ─────────────────────────────────────────────
+
+    def get_udemy_meta(self, slug):
+        url = f"https://www.udemy.com/course/{slug}/"
         try:
-            print(f"  📷 Fetching Udemy page for thumbnail: {clean_url[:60]}...")
-            resp = self.session.get(
-                clean_url,
-                timeout=20,
-                headers=UDEMY_HEADERS,
-                allow_redirects=True,
-            )
-
-            if resp.status_code in (403, 429, 503):
-                print(f"  ⚠️  Udemy blocked ({resp.status_code}), skipping")
-                return None
-
+            resp = self.session.get(url, timeout=20, headers=UDEMY_HEADERS, allow_redirects=True)
             if resp.status_code != 200:
-                print(f"  ⚠️  Status {resp.status_code}")
-                return None
-
-            soup = BeautifulSoup(resp.text, 'lxml')
+                return {}
+            soup   = BeautifulSoup(resp.text, "lxml")
             result = {}
 
-            # ── 1. og:image ──────────────────────────────────────────────
-            og_img = soup.find('meta', property='og:image')
-            if og_img and og_img.get('content', '').startswith('http'):
-                result['thumbnail'] = og_img['content']
-                print(f"  ✅ og:image found: {result['thumbnail'][:60]}")
+            # 1. og:image
+            og = soup.find("meta", property="og:image")
+            if og and og.get("content", "").startswith("http"):
+                result["thumbnail"] = og["content"]
 
-            # ── 2. twitter:image (fallback) ──────────────────────────────
-            if not result.get('thumbnail'):
-                tw_img = soup.find('meta', attrs={'name': 'twitter:image'})
-                if tw_img and tw_img.get('content', '').startswith('http'):
-                    result['thumbnail'] = tw_img['content']
-                    print(f"  ✅ twitter:image found: {result['thumbnail'][:60]}")
+            # 2. twitter:image
+            if not result.get("thumbnail"):
+                tw = soup.find("meta", attrs={"name": "twitter:image"})
+                if tw and tw.get("content", "").startswith("http"):
+                    result["thumbnail"] = tw["content"]
 
-            # ── 3. JSON-LD ───────────────────────────────────────────────
-            for script in soup.find_all('script', type='application/ld+json'):
+            # 3. JSON-LD
+            for script in soup.find_all("script", type="application/ld+json"):
                 try:
-                    raw = script.string or script.get_text()
-                    if not raw:
-                        continue
-                    data = json.loads(raw)
-                    # JSON-LD can be a list or a single object
+                    data = json.loads(script.string or "")
                     if isinstance(data, list):
-                        data = next((d for d in data if d.get('@type') == 'Course'), data[0] if data else {})
-                    if data.get('@type') != 'Course':
+                        data = next((d for d in data if d.get("@type") == "Course"), {})
+                    if data.get("@type") != "Course":
                         continue
-
-                    # thumbnail from JSON-LD image
-                    if not result.get('thumbnail'):
-                        img = data.get('image')
-                        if isinstance(img, str) and img.startswith('http'):
-                            result['thumbnail'] = img
-                        elif isinstance(img, dict) and img.get('url', '').startswith('http'):
-                            result['thumbnail'] = img['url']
-
-                    # title
-                    if not result.get('title'):
-                        result['title'] = data.get('name', '').strip()
-
-                    # description
-                    desc = data.get('description', '')
-                    result['description'] = desc[:250] if desc else None
-
-                    # instructor / author
-                    author = data.get('author') or data.get('instructor')
+                    if not result.get("thumbnail"):
+                        img = data.get("image")
+                        if isinstance(img, str) and img.startswith("http"):
+                            result["thumbnail"] = img
+                        elif isinstance(img, dict):
+                            result["thumbnail"] = img.get("url", "")
+                    result["title"]       = (data.get("name") or "").strip() or None
+                    result["description"] = (data.get("description") or "")[:300] or None
+                    author = data.get("author") or data.get("instructor")
                     if isinstance(author, list) and author:
                         author = author[0]
                     if isinstance(author, dict):
-                        result['instructor'] = author.get('name')
-                    elif isinstance(author, str):
-                        result['instructor'] = author
-
-                    # rating & students
-                    agg = data.get('aggregateRating', {})
+                        result["instructor"] = author.get("name")
+                    agg = data.get("aggregateRating", {})
                     if agg:
-                        result['rating'] = agg.get('ratingValue')
-                        result['students'] = agg.get('ratingCount') or agg.get('reviewCount')
-
-                    break   # found the Course block, stop looping
+                        result["rating"]   = agg.get("ratingValue")
+                        result["students"] = agg.get("ratingCount") or agg.get("reviewCount")
+                    break
                 except Exception:
                     continue
 
-            # ── 4. __NEXT_DATA__ embedded JSON (Udemy React app) ─────────
-            if not result.get('thumbnail') or not result.get('instructor'):
-                next_data_tag = soup.find('script', id='__NEXT_DATA__')
-                if next_data_tag:
+            # 4. __NEXT_DATA__
+            if not result.get("thumbnail"):
+                nd = soup.find("script", id="__NEXT_DATA__")
+                if nd:
                     try:
-                        nd = json.loads(next_data_tag.string or '')
-                        # Navigate the nested structure
-                        props = nd.get('props', {}).get('pageProps', {})
-                        course_data = props.get('course', props.get('courseData', {}))
-
-                        if not result.get('thumbnail'):
-                            thumb = (
-                                course_data.get('image_480x270')
-                                or course_data.get('image_240x135')
-                                or course_data.get('image_100x100')
-                            )
-                            if thumb and thumb.startswith('http'):
-                                result['thumbnail'] = thumb
-
-                        if not result.get('instructor'):
-                            instructors = course_data.get('visible_instructors', [])
-                            if instructors:
-                                result['instructor'] = instructors[0].get('display_name')
-
-                        if not result.get('rating'):
-                            result['rating'] = course_data.get('rating')
-
-                        if not result.get('students'):
-                            result['students'] = course_data.get('num_subscribers')
+                        cd    = json.loads(nd.string or "")
+                        cd    = cd.get("props", {}).get("pageProps", {}).get("course", {})
+                        thumb = cd.get("image_480x270") or cd.get("image_240x135")
+                        if thumb and thumb.startswith("http"):
+                            result["thumbnail"] = thumb
+                        if not result.get("instructor"):
+                            ins = cd.get("visible_instructors", [])
+                            if ins:
+                                result["instructor"] = ins[0].get("display_name")
+                        result.setdefault("rating",   cd.get("rating"))
+                        result.setdefault("students", cd.get("num_subscribers"))
                     except Exception:
                         pass
-
-            # ── 5. img tag with udemyassets CDN ─────────────────────────
-            if not result.get('thumbnail'):
-                for img in soup.find_all('img'):
-                    src = img.get('src', '') or img.get('data-src', '')
-                    if 'udemyassets' in src or 'udemy-images' in src:
-                        if src.startswith('http'):
-                            result['thumbnail'] = src
-                            print(f"  ✅ img CDN found: {src[:60]}")
-                            break
-
-            if result.get('thumbnail'):
-                return result
-
-            print(f"  ❌ No thumbnail found for {clean_url}")
-            return None
-
+            return result
         except Exception as e:
-            print(f"  ❌ Udemy meta fetch error: {e}")
-            return None
-
-    # ─────────────────────────────────────────────
-    # BLOG POST THUMBNAIL (secondary fallback)
-    # ─────────────────────────────────────────────
-
-    def extract_scraped_thumbnail(self, html, title):
-        """Extract thumbnail from blog post HTML as secondary fallback."""
-        if not html:
-            return None
-        soup = BeautifulSoup(html, 'lxml')
-
-        # og:image is most reliable
-        og_img = soup.find('meta', property='og:image')
-        if og_img and og_img.get('content', '').startswith('http'):
-            src = og_img['content']
-            if any(x in src for x in ['udemy', 'cdn', 'udemyassets', 'img-c']):
-                return src
-
-        # Large images in article body
-        for img in soup.find_all('img'):
-            src = img.get('data-src') or img.get('src', '')
-            if any(x in src.lower() for x in ['udemy', 'course', '480x270', '240x135', 'udemyassets']):
-                if src.startswith('http') and not src.endswith('.svg'):
-                    return src
-
-        # Alt-text hints
-        for img in soup.find_all('img', alt=re.compile('course|udemy', re.I)):
-            src = img.get('data-src') or img.get('src', '')
-            if src.startswith('http') and not src.endswith('.svg'):
-                return src
-
-        return None
-
-    # ─────────────────────────────────────────────
-    # PLACEHOLDER (last resort)
-    # ─────────────────────────────────────────────
+            print(f"  ⚠️  Udemy meta: {e}")
+            return {}
 
     def generate_placeholder(self, title, category):
         colors = {
-            'programming': '3b82f6',
-            'business':    '10b981',
-            'design':      '8b5cf6',
-            'data':        'f59e0b',
-            'it':          'ef4444',
-            'personal':    'ec4899',
-            'general':     '6b7280',
+            "programming": "3b82f6", "business": "10b981",
+            "design":      "8b5cf6", "data":     "f59e0b",
+            "it":          "ef4444", "personal": "ec4899",
+            "photography": "0ea5e9", "music":    "a855f7",
+            "health":      "22c55e", "language": "f97316",
+            "general":     "6b7280",
         }
-        color = colors.get(category, '6b7280')
-        text  = urllib.parse.quote(title[:25])
-        return f"https://via.placeholder.com/480x270/{color}/ffffff?text={text}"
+        color = colors.get(category, "6b7280")
+        return f"https://via.placeholder.com/480x270/{color}/ffffff?text={quote(title[:28])}"
 
     # ─────────────────────────────────────────────
-    # HELPERS
+    # COURSE REGISTRATION (dedup by slug)
     # ─────────────────────────────────────────────
 
-    def check_coupon_valid(self, udemy_url):
-        if not udemy_url or 'udemy.com' not in udemy_url:
-            return True
-        try:
-            print(f"  Checking coupon...")
-            resp = self.session.get(udemy_url, headers=UDEMY_HEADERS, timeout=15, allow_redirects=True)
-            text_lower = resp.text.lower()
-            expired_indicators = [
-                'expired', 'no longer available', 'invalid coupon',
-                'this coupon has expired', 'promotion expired',
-                'the coupon code entered is not valid',
-            ]
-            if any(x in text_lower for x in expired_indicators):
-                print(f"  ❌ EXPIRED")
-                return False
-            if 'buy now' in text_lower and '100% off' not in text_lower and 'free' not in text_lower:
-                if resp.status_code == 200:
-                    print(f"  ❌ NOT FREE")
-                    return False
-            print(f"  ✅ VALID")
-            return True
-        except Exception as e:
-            print(f"  ⚠️ Check failed: {e}")
-            return True
-
-    def detect_category(self, title):
-        t = title.lower()
-        cats = {
-            'programming': ['python', 'java', 'javascript', 'coding', 'programming',
-                            'developer', 'web dev', 'html', 'css', 'react', 'node',
-                            'django', 'sql', 'php', 'kotlin', 'android', 'ios',
-                            'swift', 'c++', 'c#', 'go ', 'rust', 'angular', 'vue',
-                            'typescript', 'flutter'],
-            'business':    ['business', 'marketing', 'seo', 'entrepreneur', 'management',
-                            'finance', 'accounting', 'sales', 'startup', 'leadership',
-                            'mba', 'project management', 'agile', 'scrum'],
-            'design':      ['design', 'photoshop', 'illustrator', 'ui', 'ux', 'graphic',
-                            'drawing', 'figma', 'canva', 'adobe', 'blender', '3d',
-                            'animation', 'video editing', 'premiere', 'after effects',
-                            'davinci'],
-            'data':        ['data science', 'machine learning', 'ml ', 'ai ', 'analytics',
-                            'sql', 'excel', 'power bi', 'tableau', 'deep learning', 'nlp',
-                            'artificial intelligence', 'pandas', 'numpy', 'tensorflow',
-                            'pytorch'],
-            'it':          ['aws', 'cloud', 'linux', 'networking', 'cybersecurity',
-                            'hacking', 'comptia', 'cisco', 'devops', 'docker',
-                            'kubernetes', 'azure', 'gcp', 'server', 'terraform',
-                            'vault', 'certified', 'administrator'],
-            'personal':    ['personal development', 'leadership', 'communication',
-                            'productivity', 'time management', 'mindset', 'stress',
-                            'meditation', 'public speaking'],
+    def add_course(self, title, udemy_url, source, post_html=None):
+        if not title or len(title) < 8:
+            return False
+        title = self.clean_title(title)
+        slug  = self.extract_slug(udemy_url)
+        if not slug:
+            return False
+        if slug in self.courses:
+            return False  # Already have it — zero duplicates
+        coupon     = self.extract_coupon(udemy_url)
+        blog_thumb = None
+        if post_html:
+            soup = BeautifulSoup(post_html, "lxml")
+            for img in soup.find_all("img"):
+                src = img.get("data-src") or img.get("src", "")
+                if any(x in src for x in ["udemycdn","udemyassets","480x270","240x135"]):
+                    if src.startswith("http"):
+                        blog_thumb = src
+                        break
+        self.courses[slug] = {
+            "id":           slug,
+            "title":        title,
+            "url":          udemy_url,
+            "coupon_code":  coupon,
+            "category":     self.detect_category(title),
+            "source":       source,
+            "_blog_thumb":  blog_thumb,
+            "thumbnail":    None,
+            "instructor":   None,
+            "description":  None,
+            "rating":       None,
+            "students":     None,
+            "is_expired":   False,
+            "scraped_at":   datetime.utcnow().isoformat(),
+            "expires_at":   (datetime.utcnow() + timedelta(days=3)).isoformat(),
         }
-        for cat, keywords in cats.items():
-            if any(kw in t for kw in keywords):
-                return cat
-        return 'general'
-
-    def extract_coupon(self, url):
-        if not url or url == 'N/A':
-            return 'UNKNOWN'
-        match = re.search(r'[?&]couponCode?=([A-Za-z0-9_\-]+)', url)
-        return match.group(1) if match else 'UNKNOWN'
-
-    def add_course(self, title, url, source, post_html=None, category=None, price='$89.99'):
-        if not title or title in self.seen_titles or len(title) < 10:
-            return None
-        title = re.sub(r'\s+', ' ', title).strip()
-        self.seen_titles.add(title)
-
-        cat           = category or self.detect_category(title)
-        scraped_thumb = self.extract_scraped_thumbnail(post_html, title) if post_html else None
-
-        course = {
-            'title':            title,
-            'url':              url if url else 'N/A',
-            'coupon_code':      self.extract_coupon(url),
-            'original_price':   price,
-            'discount_price':   'Free',
-            'discount_percent': '100%',
-            'rating':           None,
-            'students':         None,
-            'category':         cat,
-            'platform':         'Udemy',
-            'source':           source,
-            '_scraped_thumb':   scraped_thumb,   # temp, removed after enrichment
-            'thumbnail':        None,
-            'instructor':       None,
-            'description':      None,
-            'expires_at':       (datetime.now() + timedelta(days=3)).isoformat(),
-            'scraped_at':       datetime.now().isoformat(),
-        }
-        self.courses.append(course)
-        return course
+        return True
 
     # ─────────────────────────────────────────────
-    # ✅ ENRICHMENT — replaces broken oEmbed
+    # THUMBNAIL ENRICHMENT
     # ─────────────────────────────────────────────
 
-    def enrich_with_udemy_pages(self):
-        """
-        Visit each Udemy course page to extract:
-          - Real thumbnail (og:image / twitter:image / JSON-LD / __NEXT_DATA__)
-          - Instructor name
-          - Rating & student count
-          - Short description
-
-        Falls back to blog-scraped image, then placeholder.
-        """
+    def enrich_thumbnails(self, batch_size=15):
         print(f"\n{'='*60}")
-        print("ENRICHING COURSES WITH UDEMY PAGE DATA")
+        print(f"ENRICHING THUMBNAILS — {len(self.courses)} courses")
         print(f"{'='*60}")
-
-        stats = {'udemy_page': 0, 'blog_scraped': 0, 'placeholder': 0}
-
-        for i, course in enumerate(self.courses, 1):
-            url = course.get('url', '')
-            print(f"\n[{i}/{len(self.courses)}] {course['title'][:55]}...")
-
-            if 'udemy.com/course/' in url:
-                meta = self.get_udemy_course_meta(url)
-                if meta and meta.get('thumbnail'):
-                    # Prefer oEmbed title if it's richer
-                    if meta.get('title') and len(meta['title']) > 10:
-                        course['title'] = meta['title']
-                    course['thumbnail']   = meta['thumbnail']
-                    course['instructor']  = meta.get('instructor')
-                    course['description'] = meta.get('description')
-                    if meta.get('rating'):
-                        course['rating'] = float(meta['rating'])
-                    if meta.get('students'):
-                        course['students'] = meta['students']
-                    stats['udemy_page'] += 1
-                    time.sleep(self.udemy_delay)
-                    continue
-
-            # Fallback 1: thumbnail scraped from the coupon blog post
-            blog_thumb = course.pop('_scraped_thumb', None)
-            if blog_thumb:
-                course['thumbnail'] = blog_thumb
-                stats['blog_scraped'] += 1
-                print(f"  ⚠️  Using blog-scraped thumbnail")
-                continue
-
-            # Fallback 2: generated placeholder
-            course['thumbnail'] = self.generate_placeholder(course['title'], course['category'])
-            stats['placeholder'] += 1
-            print(f"  🖼️  Using placeholder")
-
-        # Remove temp field from any remaining courses
-        for course in self.courses:
-            course.pop('_scraped_thumb', None)
-
-        print(f"\n✅ Udemy page: {stats['udemy_page']} | "
-              f"⚠️ Blog scraped: {stats['blog_scraped']} | "
-              f"🖼️ Placeholder: {stats['placeholder']}")
-        return stats
+        items = list(self.courses.values())
+        for i, course in enumerate(items, 1):
+            slug = course["id"]
+            print(f"  [{i}/{len(items)}] {course['title'][:52]}...")
+            meta = self.get_udemy_meta(slug)
+            if meta.get("thumbnail"):
+                course["thumbnail"] = meta["thumbnail"]
+                self.stats["thumbnails"]["udemy_page"] += 1
+            elif course.get("_blog_thumb"):
+                course["thumbnail"] = course["_blog_thumb"]
+                self.stats["thumbnails"]["blog"] += 1
+            else:
+                course["thumbnail"] = self.generate_placeholder(course["title"], course["category"])
+                self.stats["thumbnails"]["placeholder"] += 1
+            if meta.get("title") and len(meta["title"]) > 10:
+                course["title"] = meta["title"]
+            for field in ("instructor", "description"):
+                if meta.get(field):
+                    course[field] = meta[field]
+            if meta.get("rating"):
+                try:
+                    course["rating"] = round(float(meta["rating"]), 1)
+                except Exception:
+                    pass
+            if meta.get("students"):
+                try:
+                    course["students"] = int(meta["students"])
+                except Exception:
+                    pass
+            course.pop("_blog_thumb", None)
+            if i % batch_size == 0:
+                print(f"  ⏸️  Batch pause...")
+                time.sleep(3)
+            else:
+                time.sleep(0.8)
+        t = self.stats["thumbnails"]
+        print(f"\n✅ Udemy: {t['udemy_page']} | Blog: {t['blog']} | Placeholder: {t['placeholder']}")
 
     # ─────────────────────────────────────────────
     # COUPON VALIDATION
     # ─────────────────────────────────────────────
 
-    def filter_expired(self, max_check=25):
+    def validate_coupons(self, max_check=50):
         print(f"\n{'='*60}")
-        print("CHECKING COUPON VALIDITY")
+        print(f"VALIDATING COUPONS (up to {max_check})")
         print(f"{'='*60}")
-
-        valid      = []
-        expired    = []
-        check_queue = [c for c in self.courses if c['coupon_code'] != 'UNKNOWN'][:max_check]
-        unchecked  = [c for c in self.courses if c not in check_queue]
-
-        for course in check_queue:
-            if self.check_coupon_valid(course['url']):
-                valid.append(course)
-            else:
-                expired.append(course)
-
-        valid.extend(unchecked)
-        print(f"\n✅ Valid: {len(valid)} | ❌ Expired: {len(expired)} | ⏭️ Unchecked: {len(unchecked)}")
-        if expired:
-            print("Expired courses removed:")
-            for c in expired[:5]:
-                print(f"  - {c['title'][:55]}...")
-        self.courses = valid
-        return len(expired)
+        expired_kw = [
+            "coupon has expired","no longer available",
+            "invalid coupon","promotion expired",
+            "coupon code entered is not valid",
+        ]
+        checked = 0
+        for slug, course in list(self.courses.items()):
+            if not course.get("coupon_code") or checked >= max_check:
+                continue
+            try:
+                resp = self.session.get(course["url"], headers=UDEMY_HEADERS, timeout=15, allow_redirects=True)
+                if any(kw in resp.text.lower() for kw in expired_kw):
+                    course["is_expired"] = True
+                    self.stats["expired"] += 1
+                    print(f"  ❌ {course['title'][:52]}")
+                else:
+                    print(f"  ✅ {course['title'][:52]}")
+                checked += 1
+                time.sleep(0.5)
+            except Exception as e:
+                print(f"  ⚠️  {e}")
+        print(f"\nExpired: {self.stats['expired']}")
 
     # ─────────────────────────────────────────────
-    # SOURCES
+    # GENERIC BLOG SCRAPER (reused by most sources)
     # ─────────────────────────────────────────────
 
-    def scrape_udemyfree_eu(self):
-        print("\n[Source 1] udemyfree.eu.org")
-        html = self.fetch('https://udemyfree.eu.org/')
-        if not html:
-            return 0
-        soup  = BeautifulSoup(html, 'lxml')
-        articles = soup.find_all('article')
-        print(f"  Found {len(articles)} articles")
-        count = 0
-        for article in articles:
-            title_tag = article.find(['h2', 'h3'])
-            if not title_tag:
-                continue
-            link      = title_tag.find('a')
-            title     = title_tag.get_text(strip=True)
-            post_url  = link['href'] if link else 'N/A'
-            post_html = udemy_url = None
-
-            if post_url and post_url != 'N/A':
-                post_html = self.fetch(post_url)
-                if post_html:
-                    ps = BeautifulSoup(post_html, 'lxml')
-                    for a in ps.find_all('a', href=True):
-                        if 'udemy.com/course/' in a['href']:
-                            udemy_url = a['href']
-                            break
-
-            if self.add_course(title, udemy_url or 'N/A', 'UdemyFree.eu.org', post_html):
-                count += 1
-        return count
-
-    def scrape_udemyfreecourses_eu(self):
-        print("\n[Source 2] udemyfreecourses.eu.org")
-        html = self.fetch('https://www.udemyfreecourses.eu.org/')
-        if not html:
-            return 0
-        soup     = BeautifulSoup(html, 'lxml')
-        articles = soup.find_all('article') or soup.find_all('div', class_=re.compile('post|entry'))
-        print(f"  Found {len(articles)} articles")
-        count = 0
-        for article in articles:
-            title_tag = article.find(['h2', 'h3']) or article.find('a')
-            if not title_tag:
-                continue
-            title    = title_tag.get_text(strip=True)
-            link     = title_tag if title_tag.name == 'a' else title_tag.find('a')
-            post_url = link['href'] if link and link.has_attr('href') else 'N/A'
-            if post_url.startswith('/'):
-                post_url = 'https://www.udemyfreecourses.eu.org' + post_url
-            post_html = udemy_url = None
-
-            if post_url and post_url != 'N/A' and 'udemy.com' not in post_url:
-                post_html = self.fetch(post_url)
-                if post_html:
-                    ps = BeautifulSoup(post_html, 'lxml')
-                    for a in ps.find_all('a', href=True):
-                        if 'udemy.com/course/' in a['href']:
-                            udemy_url = a['href']
-                            break
-
-            if self.add_course(title, udemy_url or post_url, 'UdemyFreeCourses.eu.org', post_html):
-                count += 1
-        return count
-
-    def scrape_coursecouponclub(self, max_pages=5):
-        print(f"\n[Source 3] coursecouponclub.com (up to {max_pages} pages)")
+    def scrape_blog(self, name, base_url, max_pages=10, list_selector=None):
+        print(f"\n[Source] {name}")
         count = 0
         for page in range(1, max_pages + 1):
-            url  = 'https://coursecouponclub.com/' if page == 1 else f'https://coursecouponclub.com/page/{page}/'
+            url  = base_url if page == 1 else f"{base_url.rstrip('/')}/page/{page}/"
             html = self.fetch(url)
             if not html:
-                continue
-            soup  = BeautifulSoup(html, 'lxml')
+                break
+            soup  = BeautifulSoup(html, "lxml")
             items = (
-                soup.find_all('article') or
-                soup.find_all('div', class_=re.compile('product|course|card|post')) or
-                soup.find_all('li',  class_=re.compile('product|course'))
+                soup.find_all("article") or
+                soup.find_all("div", class_=re.compile("post|course|card|entry"))
             )
-            print(f"  Page {page}: Found {len(items)} items")
             if not items:
                 break
-
+            print(f"  Page {page}: {len(items)} items")
             for item in items:
-                title_tag = (
-                    item.find(['h2', 'h3', 'h4']) or
-                    item.find('a', class_=re.compile('title')) or
-                    item.find('div', class_=re.compile('title'))
-                )
+                title_tag = item.find(["h2", "h3", "h4"])
                 if not title_tag:
-                    if item.name == 'a':
-                        title_tag = item
-                    else:
-                        continue
-
+                    continue
+                a        = title_tag.find("a", href=True)
                 title    = title_tag.get_text(strip=True)
-                link     = title_tag if title_tag.name == 'a' else title_tag.find('a')
-                post_url = link['href'] if link and link.has_attr('href') else 'N/A'
+                post_url = a["href"] if a else None
+                if not post_url:
+                    continue
+                if not post_url.startswith("http"):
+                    from urllib.parse import urljoin
+                    post_url = urljoin(base_url, post_url)
                 post_html = udemy_url = None
-
-                if post_url and post_url != 'N/A' and 'udemy.com' not in post_url:
+                if "udemy.com/course/" in post_url:
+                    udemy_url = post_url
+                else:
                     post_html = self.fetch(post_url)
                     if post_html:
-                        ps = BeautifulSoup(post_html, 'lxml')
-                        for a in ps.find_all('a', href=True):
-                            if 'udemy.com/course/' in a['href']:
-                                udemy_url = a['href']
+                        ps = BeautifulSoup(post_html, "lxml")
+                        for link in ps.find_all("a", href=True):
+                            if "udemy.com/course/" in link["href"]:
+                                udemy_url = link["href"]
                                 break
-
-                if self.add_course(title, udemy_url or post_url, 'CourseCouponClub.com', post_html):
+                if self.add_course(title, udemy_url, name, post_html):
                     count += 1
             time.sleep(1)
-        return count
-
-    def scrape_couponscorpion(self, max_pages=3):
-        print(f"\n[Source 4] couponscorpion.com (up to {max_pages} pages)")
-        count = 0
-        for page in range(1, max_pages + 1):
-            url  = 'https://couponscorpion.com/' if page == 1 else f'https://couponscorpion.com/page/{page}/'
-            html = self.fetch(url)
-            if not html:
-                continue
-            soup  = BeautifulSoup(html, 'lxml')
-            items = soup.find_all('article') or soup.find_all('div', class_=re.compile('course|post|card|item'))
-            print(f"  Page {page}: Found {len(items)} items")
-            if not items:
-                break
-
-            for item in items:
-                title_tag = item.find(['h2', 'h3', 'h4', 'h5']) or item.find('a')
-                if not title_tag:
-                    continue
-                title = title_tag.get_text(strip=True)
-                if len(title) < 10 or 'FAQ' in title or 'How to' in title:
-                    continue
-                link     = title_tag if title_tag.name == 'a' else title_tag.find('a')
-                post_url = link['href'] if link and link.has_attr('href') else 'N/A'
-                post_html = udemy_url = None
-
-                if post_url and post_url != 'N/A':
-                    if 'udemy.com' in post_url:
-                        udemy_url = post_url
-                    else:
-                        post_html = self.fetch(post_url)
-                        if post_html:
-                            ps = BeautifulSoup(post_html, 'lxml')
-                            for a in ps.find_all('a', href=True):
-                                if 'udemy.com/course/' in a['href']:
-                                    udemy_url = a['href']
-                                    break
-
-                if self.add_course(title, udemy_url or post_url, 'CouponScorpion.com', post_html):
-                    count += 1
-            time.sleep(1)
+        print(f"  → {count} new courses")
+        self.stats["sources"][name] = count
         return count
 
     # ─────────────────────────────────────────────
-    # MAIN RUNNER
+    # SOURCE: real.discount (has JSON API)
+    # ─────────────────────────────────────────────
+
+    def scrape_real_discount(self, max_pages=15):
+        print("\n[Source] real.discount (API)")
+        count = 0
+        for page in range(1, max_pages + 1):
+            try:
+                resp = self.session.get(
+                    f"https://www.real.discount/api/free-courses/?page={page}&ordering=-date&format=json",
+                    timeout=15,
+                )
+                data    = resp.json()
+                results = data.get("results", [])
+                if not results:
+                    break
+                print(f"  Page {page}: {len(results)} items")
+                for item in results:
+                    title     = (item.get("name") or "").strip()
+                    udemy_url = item.get("url") or item.get("store_link", "")
+                    thumb     = item.get("image") or item.get("thumbnail")
+                    if self.add_course(title, udemy_url, "real.discount"):
+                        slug = self.extract_slug(udemy_url)
+                        if slug and thumb:
+                            self.courses[slug]["_blog_thumb"] = thumb
+                        count += 1
+                time.sleep(0.5)
+            except Exception as e:
+                print(f"  ⚠️  {e}")
+                break
+        print(f"  → {count} new courses")
+        self.stats["sources"]["real.discount"] = count
+        return count
+
+    # ─────────────────────────────────────────────
+    # SOURCE: tutorialbar.com
+    # ─────────────────────────────────────────────
+
+    def scrape_tutorialbar(self, max_pages=15):
+        print("\n[Source] tutorialbar.com")
+        count = 0
+        for page in range(1, max_pages + 1):
+            url  = f"https://www.tutorialbar.com/all-courses/page/{page}/"
+            html = self.fetch(url)
+            if not html:
+                break
+            soup  = BeautifulSoup(html, "lxml")
+            items = soup.find_all("h3", class_="course_title")
+            if not items:
+                break
+            print(f"  Page {page}: {len(items)} items")
+            for item in items:
+                a        = item.find("a", href=True)
+                if not a:
+                    continue
+                title     = a.get_text(strip=True)
+                post_html = self.fetch(a["href"])
+                udemy_url = None
+                if post_html:
+                    ps = BeautifulSoup(post_html, "lxml")
+                    for link in ps.find_all("a", href=True):
+                        if "udemy.com/course/" in link["href"]:
+                            udemy_url = link["href"]
+                            break
+                if self.add_course(title, udemy_url, "tutorialbar.com", post_html):
+                    count += 1
+            time.sleep(1)
+        print(f"  → {count} new courses")
+        self.stats["sources"]["tutorialbar.com"] = count
+        return count
+
+    # ─────────────────────────────────────────────
+    # SOURCE: discudemy.com
+    # ─────────────────────────────────────────────
+
+    def scrape_discudemy(self, max_pages=15):
+        print("\n[Source] discudemy.com")
+        count = 0
+        for page in range(1, max_pages + 1):
+            html = self.fetch(f"https://www.discudemy.com/all/{page}")
+            if not html:
+                break
+            soup  = BeautifulSoup(html, "lxml")
+            items = soup.find_all("div", class_="card-header")
+            if not items:
+                break
+            print(f"  Page {page}: {len(items)} items")
+            for item in items:
+                a = item.find("a", href=True)
+                if not a:
+                    continue
+                title    = a.get_text(strip=True)
+                href     = a["href"]
+                if not href.startswith("http"):
+                    href = "https://www.discudemy.com" + href
+                post_html = self.fetch(href)
+                udemy_url = None
+                if post_html:
+                    ps = BeautifulSoup(post_html, "lxml")
+                    for link in ps.find_all("a", href=True):
+                        if "udemy.com/course/" in link["href"]:
+                            udemy_url = link["href"]
+                            break
+                if self.add_course(title, udemy_url, "discudemy.com", post_html):
+                    count += 1
+            time.sleep(1)
+        print(f"  → {count} new courses")
+        self.stats["sources"]["discudemy.com"] = count
+        return count
+
+    # ─────────────────────────────────────────────
+    # SUPABASE UPSERT
+    # ─────────────────────────────────────────────
+
+    def save_to_supabase(self):
+        if not self.supabase:
+            print("\n⚠️  No Supabase credentials — skipping")
+            return
+        print(f"\n{'='*60}")
+        print("SAVING TO SUPABASE")
+        print(f"{'='*60}")
+        items      = [
+            {k: v for k, v in c.items() if not k.startswith("_")}
+            for c in self.courses.values()
+        ]
+        batch_size = 50
+        saved      = 0
+        for i in range(0, len(items), batch_size):
+            batch = items[i:i + batch_size]
+            try:
+                result = (
+                    self.supabase.table("udemy_courses")
+                    .upsert(batch, on_conflict="id")
+                    .execute()
+                )
+                n      = len(result.data) if result.data else len(batch)
+                saved += n
+                print(f"  ✅ Batch {i//batch_size + 1}: {n} upserted")
+            except Exception as e:
+                print(f"  ❌ Batch error: {e}")
+        try:
+            self.supabase.table("scrape_runs").insert({
+                "total_found": len(self.courses),
+                "new_courses": saved,
+                "expired":     self.stats["expired"],
+                "sources":     self.stats["sources"],
+            }).execute()
+        except Exception:
+            pass
+        print(f"\n✅ Total saved to Supabase: {saved}")
+
+    # ─────────────────────────────────────────────
+    # SAVE JSON BACKUP
+    # ─────────────────────────────────────────────
+
+    def save_json(self):
+        courses_list = [
+            {k: v for k, v in c.items() if not k.startswith("_")}
+            for c in self.courses.values()
+            if not c.get("is_expired")
+        ]
+        by_cat = {}
+        for c in courses_list:
+            by_cat.setdefault(c["category"], 0)
+            by_cat[c["category"]] += 1
+        output = {
+            "meta": {
+                "scraped_at":        datetime.utcnow().isoformat(),
+                "total_courses":     len(courses_list),
+                "expired_removed":   self.stats["expired"],
+                "thumbnail_sources": self.stats["thumbnails"],
+                "source_counts":     self.stats["sources"],
+            },
+            "courses":     courses_list,
+            "by_category": by_cat,
+        }
+        with open("udemy_deals.json", "w", encoding="utf-8") as f:
+            json.dump(output, f, indent=2, ensure_ascii=False)
+        print(f"\n💾 Saved udemy_deals.json — {len(courses_list)} courses")
+
+    # ─────────────────────────────────────────────
+    # MAIN RUN
     # ─────────────────────────────────────────────
 
     def run(self):
+        start = datetime.utcnow()
         print(f"{'='*60}")
-        print("ULTIMATE UDEMY SCRAPER  v2")
-        print("Features: Direct-page Thumbnails + Expired Cleanup")
+        print("UDEMY SCRAPER  v3  —  Professional Edition")
+        print(f"10 sources | Supabase upsert | Slug-based dedup")
         print(f"{'='*60}")
 
-        results = {
-            'udemyfree.eu':      self.scrape_udemyfree_eu(),
-            'udemyfreecourses.eu': self.scrape_udemyfreecourses_eu(),
-            'coursecouponclub':  self.scrape_coursecouponclub(max_pages=5),
-            'couponscorpion':    self.scrape_couponscorpion(max_pages=3),
-        }
+        # ── All sources ───────────────────────────
+        self.scrape_real_discount(max_pages=15)
+        self.scrape_tutorialbar(max_pages=15)
+        self.scrape_discudemy(max_pages=15)
+        self.scrape_blog("couponscorpion.com",    "https://couponscorpion.com",          max_pages=10)
+        self.scrape_blog("freebiesglobal.com",    "https://freebiesglobal.com",          max_pages=10)
+        self.scrape_blog("coursecouponclub.com",  "https://coursecouponclub.com",        max_pages=10)
+        self.scrape_blog("udemyfree.eu.org",      "https://udemyfree.eu.org",            max_pages=8)
+        self.scrape_blog("idownloadcoupon.com",   "https://idownloadcoupon.com",         max_pages=8)
+        self.scrape_blog("onlinecourses.ooo",     "https://onlinecourses.ooo",           max_pages=8)
+        self.scrape_blog("udemyking.com",         "https://udemyking.com",               max_pages=8)
 
-        # Enrich with real thumbnails from Udemy pages
-        thumb_stats = self.enrich_with_udemy_pages()
+        print(f"\n📦 Unique courses collected: {len(self.courses)}")
 
-        # Remove expired coupons
-        expired_count = self.filter_expired(max_check=25)
+        self.enrich_thumbnails(batch_size=15)
+        self.validate_coupons(max_check=50)
+        self.save_to_supabase()
+        self.save_json()
 
-        # ── Stats ─────────────────────────────────────────────────────────
-        by_cat = {}
-        for c in self.courses:
-            by_cat.setdefault(c['category'], []).append(c)
+        # ── Report ────────────────────────────────
+        duration = (datetime.utcnow() - start).seconds
+        by_cat   = {}
+        for c in self.courses.values():
+            by_cat.setdefault(c["category"], 0)
+            by_cat[c["category"]] += 1
 
         print(f"\n{'='*60}")
-        print("FINAL RESULTS")
+        print("FINAL REPORT")
         print(f"{'='*60}")
-        print(f"Total courses   : {len(self.courses)}")
-        print(f"Expired removed : {expired_count}")
-        print(f"\nThumbnail sources:")
-        print(f"  🎨 Udemy page : {thumb_stats['udemy_page']}")
-        print(f"  📷 Blog post  : {thumb_stats['blog_scraped']}")
-        print(f"  🖼️  Placeholder: {thumb_stats['placeholder']}")
+        print(f"Duration      : {duration // 60}m {duration % 60}s")
+        print(f"Total courses : {len(self.courses)}")
+        print(f"Expired       : {self.stats['expired']}")
         print(f"\nBy category:")
-        for cat, items in sorted(by_cat.items(), key=lambda x: -len(x[1])):
-            bar = "█" * min(len(items), 20)
-            print(f"  {cat:15} | {len(items):3} | {bar}")
-
-        # ── Save ──────────────────────────────────────────────────────────
-        output = {
-            "meta": {
-                "scraped_at":        datetime.now().isoformat(),
-                "next_update":       (datetime.now() + timedelta(days=1)).isoformat(),
-                "total_courses":     len(self.courses),
-                "expired_removed":   expired_count,
-                "thumbnail_sources": thumb_stats,
-                "sources":           list(results.keys()),
-                "source_counts":     results,
-            },
-            "courses":     self.courses,
-            "by_category": {k: v for k, v in by_cat.items()},
-        }
-
-        with open('udemy_deals.json', 'w', encoding='utf-8') as f:
-            json.dump(output, f, indent=2, ensure_ascii=False)
-
-        print(f"\n💾 Saved to: udemy_deals.json")
-        print("Done! ✅")
-        return self.courses
+        for cat, n in sorted(by_cat.items(), key=lambda x: -x[1]):
+            print(f"  {cat:15} | {n:4} | {'█' * min(n, 30)}")
+        print(f"\nBy source:")
+        for src, n in sorted(self.stats["sources"].items(), key=lambda x: -x[1]):
+            print(f"  {src:32} | {n:4}")
+        print("\n✅ Done!")
 
 
-if __name__ == '__main__':
-    scraper = UltimateUdemyScraper()
+if __name__ == "__main__":
+    scraper = ProUdemyScraper()
     scraper.run()
