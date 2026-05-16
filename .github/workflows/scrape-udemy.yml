@@ -2,8 +2,8 @@ name: Udemy Scraper
 
 on:
   schedule:
-    - cron: '0 */6 * * *'   # Every 6 hours
-  workflow_dispatch:          # Manual trigger
+    - cron: '0 0 * * *'   # Every 24 hours at midnight UTC
+  workflow_dispatch:        # Manual trigger
 
 jobs:
   scrape:
@@ -32,7 +32,10 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git stash
+          git pull --rebase origin main
+          git stash pop
           git add udemy_deals.json
           git diff --staged --quiet && echo "No changes to commit" && exit 0
-          git pull --rebase origin main
+          git commit -m "🎓 Scrape: $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
