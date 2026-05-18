@@ -1,5 +1,5 @@
 """
-Multi-Platform Free Courses Scraper  v5
+Multi-Platform Free Courses Scraper  v6
 Fixes:
   - Cleans old courses from Supabase after each run
   - Fixes "Expired" prefix in titles
@@ -316,23 +316,47 @@ class MultiPlatformScraper:
         print(f"\n{'='*60}")
         print(f"ENRICHING THUMBNAILS — {len(self.courses)} courses")
         print(f"{'='*60}")
-        items = list(self.courses.values())
+
+        udemy_page_needed = [
+            c for c in self.courses.values()
+            if c["platform"] == "Udemy" and not c.get("thumbnail") and not c.get("_blog_thumb")
+        ]
+        already_have = len(self.courses) - len(udemy_page_needed)
+        print(f"  ✅ Already have thumbnail : {already_have}")
+        print(f"  🌐 Need Udemy page visit  : {len(udemy_page_needed)}")
+
+        items   = list(self.courses.values())
+        visited = 0
+
         for i, course in enumerate(items, 1):
-            if course["platform"] == "Udemy" and not course.get("thumbnail"):
+
+            # ── Already has thumbnail (real.discount, Coursera etc.) ──
+            if course.get("thumbnail"):
+                self.stats["thumbnails"]["real"] += 1
+                course.pop("_blog_thumb", None)
+                continue
+
+            # ── Has blog-scraped thumbnail ────────────────────────────
+            if course.get("_blog_thumb"):
+                course["thumbnail"] = course.pop("_blog_thumb")
+                self.stats["thumbnails"]["blog"] += 1
+                continue
+
+            # ── Needs Udemy page visit ────────────────────────────────
+            if course["platform"] == "Udemy":
                 slug = course["id"].split(":", 1)[1]
-                print(f"  [{i}/{len(items)}] {course['title'][:50]}...")
+                print(f"  [{visited+1}/{len(udemy_page_needed)}] {course['title'][:50]}...")
                 meta = self.get_udemy_meta(slug)
+
                 if meta.get("thumbnail"):
                     course["thumbnail"] = meta["thumbnail"]
                     self.stats["thumbnails"]["real"] += 1
-                elif course.get("_blog_thumb"):
-                    course["thumbnail"] = course["_blog_thumb"]
-                    self.stats["thumbnails"]["blog"] += 1
                 else:
                     course["thumbnail"] = self.generate_placeholder(
                         course["title"], course["category"]
                     )
                     self.stats["thumbnails"]["placeholder"] += 1
+
                 for field in ("title", "instructor", "description"):
                     if meta.get(field) and len(str(meta[field])) > 5:
                         course[field] = meta[field]
@@ -342,18 +366,25 @@ class MultiPlatformScraper:
                 if meta.get("students"):
                     try: course["students"] = int(meta["students"])
                     except: pass
-                if i % batch_size == 0:
+
+                visited += 1
+                if visited % batch_size == 0:
+                    print(f"  ⏸️  Batch pause...")
                     time.sleep(3)
                 else:
                     time.sleep(0.8)
-            elif course.get("thumbnail"):
-                self.stats["thumbnails"]["real"] += 1
             else:
+                # Non-Udemy platform with no thumbnail
                 course["thumbnail"] = self.generate_placeholder(
                     course["title"], course["category"]
                 )
                 self.stats["thumbnails"]["placeholder"] += 1
+
             course.pop("_blog_thumb", None)
+
+        t = self.stats["thumbnails"]
+        print(f"\n✅ Real: {t['real']} | Blog: {t['blog']} | Placeholder: {t['placeholder']}")
+        print(f"🌐 Udemy pages visited: {visited}")
 
     # ─────────────────────────────────────────────
     # COUPON VALIDATION
@@ -442,33 +473,119 @@ class MultiPlatformScraper:
         return count
 
     # ─────────────────────────────────────────────
-    # real.discount (JSON API)
+    # real.discount (JSON API) — FIXED v2
     # ─────────────────────────────────────────────
 
-    def scrape_real_discount(self, max_pages=15):
+    def scrape_real_discount(self, max_pages=20):
         print("\n[Source] real.discount (API)")
         count = 0
+
+        # API headers — mimic a browser JSON request
+        api_headers = {
+            **HEADERS,
+            "Accept":          "application/json, text/plain, */*",
+            "Referer":         "https://www.real.discount/",
+            "X-Requested-With": "XMLHttpRequest",
+        }
+
         for page in range(1, max_pages + 1):
             try:
                 resp = self.session.get(
                     f"https://www.real.discount/api/free-courses/"
-                    f"?page={page}&ordering=-date&format=json",
-                    timeout=15,
+                    f"?page={page}&ordering=-date&store=Udemy&free=1",
+                    timeout=20,
+                    headers=api_headers,
                 )
-                results = resp.json().get("results", [])
+
+                # ── Debug: log status on first page ──
+                if page == 1:
+                    print(f"  Status: {resp.status_code}")
+                    if resp.status_code != 200:
+                        print(f"  Response: {resp.text[:300]}")
+                        break
+
+                data    = resp.json()
+                results = data.get("results", [])
+
                 if not results:
+                    print(f"  Page {page}: no results — stopping")
                     break
+
                 print(f"  Page {page}: {len(results)} items")
+
                 for item in results:
-                    title     = (item.get("name") or "").strip()
-                    udemy_url = item.get("url") or item.get("store_link", "")
-                    thumb     = item.get("image") or item.get("thumbnail")
-                    if self.add_course(title, udemy_url, "real.discount", "Udemy", thumbnail=thumb):
+                    # ── Extract all possible field names ──
+                    title = (
+                        item.get("name") or
+                        item.get("title") or
+                        item.get("course_name") or ""
+                    ).strip()
+
+                    udemy_url = (
+                        item.get("url") or
+                        item.get("store_link") or
+                        item.get("udemy_url") or
+                        item.get("link") or ""
+                    ).strip()
+
+                    # ── Thumbnail — real.discount gives udemycdn URLs directly ──
+                    thumb = (
+                        item.get("image") or
+                        item.get("thumbnail") or
+                        item.get("image_240x135") or
+                        item.get("image_480x270") or
+                        item.get("photo_url") or
+                        item.get("course_image") or ""
+                    ).strip() or None
+
+                    # ── Coupon code — available directly in API ──
+                    coupon = (
+                        item.get("coupon_code") or
+                        item.get("coupon") or
+                        self.extract_coupon(udemy_url)
+                    )
+
+                    # ── Rating & students — free from API ──
+                    rating   = item.get("rating")
+                    students = item.get("students") or item.get("num_subscribers")
+
+                    if not title or not udemy_url:
+                        continue
+
+                    # Make sure URL has coupon attached
+                    if coupon and "couponCode" not in udemy_url:
+                        udemy_url = f"{udemy_url}?couponCode={coupon}"
+
+                    if self.add_course(
+                        title, udemy_url, "real.discount", "Udemy", thumbnail=thumb
+                    ):
+                        # Enrich with API data directly — no Udemy page needed
+                        slug = self.extract_slug(udemy_url)
+                        if slug:
+                            key = self.make_key("Udemy", slug)
+                            if key in self.courses:
+                                if coupon:
+                                    self.courses[key]["coupon_code"] = coupon
+                                if rating:
+                                    try:
+                                        self.courses[key]["rating"] = round(float(rating), 1)
+                                    except Exception:
+                                        pass
+                                if students:
+                                    try:
+                                        self.courses[key]["students"] = int(students)
+                                    except Exception:
+                                        pass
                         count += 1
+
                 time.sleep(0.5)
+
             except Exception as e:
                 print(f"  ⚠️  real.discount page {page}: {e}")
+                if page == 1:
+                    print(f"  Full error: {repr(e)}")
                 break
+
         print(f"  → {count} new courses from real.discount")
         self.stats["sources"]["real.discount"] = count
         return count
@@ -689,7 +806,7 @@ class MultiPlatformScraper:
     def run(self):
         start = datetime.utcnow()
         print(f"{'='*60}")
-        print("MULTI-PLATFORM SCRAPER  v5")
+        print("MULTI-PLATFORM SCRAPER  v6")
         print(f"Started: {start.strftime('%Y-%m-%d %H:%M UTC')}")
         print(f"{'='*60}")
 
