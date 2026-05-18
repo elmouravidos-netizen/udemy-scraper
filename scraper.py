@@ -473,121 +473,226 @@ class MultiPlatformScraper:
         return count
 
     # ─────────────────────────────────────────────
-    # real.discount (JSON API) — FIXED v2
+    # coursevania.com (JSON API)
     # ─────────────────────────────────────────────
 
-    def scrape_real_discount(self, max_pages=20):
-        print("\n[Source] real.discount (API)")
+    def scrape_coursevania(self, max_pages=15):
+        print("\n[Source] coursevania.com (API)")
         count = 0
-
-        # API headers — mimic a browser JSON request
         api_headers = {
             **HEADERS,
-            "Accept":          "application/json, text/plain, */*",
-            "Referer":         "https://www.real.discount/",
-            "X-Requested-With": "XMLHttpRequest",
+            "Accept":  "application/json, text/plain, */*",
+            "Referer": "https://coursevania.com/",
         }
-
         for page in range(1, max_pages + 1):
             try:
                 resp = self.session.get(
-                    f"https://www.real.discount/api/free-courses/"
-                    f"?page={page}&ordering=-date&store=Udemy&free=1",
+                    f"https://coursevania.com/wp-json/wp/v2/posts"
+                    f"?per_page=20&page={page}&_embed=1",
                     timeout=20,
                     headers=api_headers,
                 )
-
-                # ── Debug: log status on first page ──
                 if page == 1:
                     print(f"  Status: {resp.status_code}")
-                    if resp.status_code != 200:
-                        print(f"  Response: {resp.text[:300]}")
-                        break
-
-                data    = resp.json()
-                results = data.get("results", [])
-
-                if not results:
-                    print(f"  Page {page}: no results — stopping")
+                if resp.status_code == 400:
                     break
-
+                if resp.status_code != 200:
+                    print(f"  ⚠️  Status {resp.status_code} — stopping")
+                    break
+                results = resp.json()
+                if not results:
+                    break
                 print(f"  Page {page}: {len(results)} items")
-
                 for item in results:
-                    # ── Extract all possible field names ──
-                    title = (
-                        item.get("name") or
-                        item.get("title") or
-                        item.get("course_name") or ""
-                    ).strip()
+                    title = item.get("title", {}).get("rendered", "").strip()
+                    title = re.sub(r'<[^>]+>', '', title)  # strip HTML tags
+                    # Get Udemy URL from content
+                    content   = item.get("content", {}).get("rendered", "")
+                    udemy_url = None
+                    m = re.search(r'https?://www\.udemy\.com/course/[^"\'>\s]+', content)
+                    if m:
+                        udemy_url = m.group(0).rstrip('/')
+                    # Thumbnail from featured media
+                    thumb = None
+                    embedded = item.get("_embedded", {})
+                    media    = embedded.get("wp:featuredmedia", [{}])
+                    if media and isinstance(media, list):
+                        src = media[0].get("source_url")
+                        if src and src.startswith("http"):
+                            thumb = src
+                    if self.add_course(title, udemy_url, "coursevania.com", "Udemy",
+                                       thumbnail=thumb):
+                        count += 1
+                time.sleep(0.8)
+            except Exception as e:
+                print(f"  ⚠️  coursevania page {page}: {e}")
+                break
+        print(f"  → {count} new courses from coursevania.com")
+        self.stats["sources"]["coursevania.com"] = count
+        return count
 
+    # ─────────────────────────────────────────────
+    # comidoc.net (JSON API)
+    # ─────────────────────────────────────────────
+
+    def scrape_comidoc(self, max_pages=15):
+        print("\n[Source] comidoc.net (API)")
+        count = 0
+        api_headers = {
+            **HEADERS,
+            "Accept":  "application/json, text/plain, */*",
+            "Referer": "https://www.comidoc.net/",
+        }
+        for page in range(1, max_pages + 1):
+            try:
+                resp = self.session.get(
+                    f"https://www.comidoc.net/api/courses"
+                    f"?page={page}&limit=20&price=free&ordering=-date",
+                    timeout=20,
+                    headers=api_headers,
+                )
+                if page == 1:
+                    print(f"  Status: {resp.status_code}")
+                if resp.status_code != 200:
+                    print(f"  ⚠️  Status {resp.status_code} — stopping")
+                    break
+                data    = resp.json()
+                results = (
+                    data if isinstance(data, list) else
+                    data.get("results") or
+                    data.get("courses") or
+                    data.get("data") or []
+                )
+                if not results:
+                    break
+                print(f"  Page {page}: {len(results)} items")
+                for item in results:
+                    title = (
+                        item.get("title") or
+                        item.get("name") or ""
+                    ).strip()
                     udemy_url = (
                         item.get("url") or
-                        item.get("store_link") or
                         item.get("udemy_url") or
                         item.get("link") or ""
                     ).strip()
-
-                    # ── Thumbnail — real.discount gives udemycdn URLs directly ──
                     thumb = (
                         item.get("image") or
                         item.get("thumbnail") or
-                        item.get("image_240x135") or
-                        item.get("image_480x270") or
-                        item.get("photo_url") or
-                        item.get("course_image") or ""
+                        item.get("image_480x270") or ""
                     ).strip() or None
-
-                    # ── Coupon code — available directly in API ──
                     coupon = (
                         item.get("coupon_code") or
                         item.get("coupon") or
                         self.extract_coupon(udemy_url)
                     )
-
-                    # ── Rating & students — free from API ──
-                    rating   = item.get("rating")
-                    students = item.get("students") or item.get("num_subscribers")
-
-                    if not title or not udemy_url:
-                        continue
-
-                    # Make sure URL has coupon attached
-                    if coupon and "couponCode" not in udemy_url:
+                    if coupon and udemy_url and "couponCode" not in udemy_url:
                         udemy_url = f"{udemy_url}?couponCode={coupon}"
-
-                    if self.add_course(
-                        title, udemy_url, "real.discount", "Udemy", thumbnail=thumb
-                    ):
-                        # Enrich with API data directly — no Udemy page needed
-                        slug = self.extract_slug(udemy_url)
-                        if slug:
-                            key = self.make_key("Udemy", slug)
-                            if key in self.courses:
-                                if coupon:
-                                    self.courses[key]["coupon_code"] = coupon
-                                if rating:
-                                    try:
-                                        self.courses[key]["rating"] = round(float(rating), 1)
-                                    except Exception:
-                                        pass
-                                if students:
-                                    try:
-                                        self.courses[key]["students"] = int(students)
-                                    except Exception:
-                                        pass
+                    if self.add_course(title, udemy_url, "comidoc.net", "Udemy",
+                                       thumbnail=thumb):
                         count += 1
-
-                time.sleep(0.5)
-
+                time.sleep(0.8)
             except Exception as e:
-                print(f"  ⚠️  real.discount page {page}: {e}")
-                if page == 1:
-                    print(f"  Full error: {repr(e)}")
+                print(f"  ⚠️  comidoc page {page}: {e}")
                 break
+        print(f"  → {count} new courses from comidoc.net")
+        self.stats["sources"]["comidoc.net"] = count
+        return count
 
-        print(f"  → {count} new courses from real.discount")
-        self.stats["sources"]["real.discount"] = count
+    # ─────────────────────────────────────────────
+    # udemyfreecourses.org (blog — no Cloudflare)
+    # ─────────────────────────────────────────────
+
+    def scrape_udemyfreecourses(self, max_pages=10):
+        print("\n[Source] udemyfreecourses.org")
+        count = 0
+        for page in range(1, max_pages + 1):
+            url  = ("https://www.udemyfreecourses.org/" if page == 1
+                    else f"https://www.udemyfreecourses.org/page/{page}/")
+            html = self.fetch(url)
+            if not html:
+                break
+            soup  = BeautifulSoup(html, "lxml")
+            items = soup.find_all("article") or soup.find_all("div", class_=re.compile("post|course"))
+            if not items:
+                break
+            print(f"  Page {page}: {len(items)} items")
+            for item in items:
+                title_tag = item.find(["h2", "h3", "h4"])
+                if not title_tag:
+                    continue
+                a        = title_tag.find("a", href=True)
+                title    = title_tag.get_text(strip=True)
+                post_url = a["href"] if a else None
+                if not post_url:
+                    continue
+                if not post_url.startswith("http"):
+                    post_url = urljoin("https://www.udemyfreecourses.org", post_url)
+                post_html = udemy_url = None
+                if "udemy.com/course/" in post_url:
+                    udemy_url = post_url
+                else:
+                    post_html = self.fetch(post_url)
+                    if post_html:
+                        ps = BeautifulSoup(post_html, "lxml")
+                        for link in ps.find_all("a", href=True):
+                            if "udemy.com/course/" in link["href"]:
+                                udemy_url = link["href"]
+                                break
+                if self.add_course(title, udemy_url, "udemyfreecourses.org",
+                                   "Udemy", post_html=post_html):
+                    count += 1
+            time.sleep(1.5)
+        print(f"  → {count} new courses from udemyfreecourses.org")
+        self.stats["sources"]["udemyfreecourses.org"] = count
+        return count
+
+    # ─────────────────────────────────────────────
+    # free-courses.eu (blog — no Cloudflare)
+    # ─────────────────────────────────────────────
+
+    def scrape_free_courses_eu(self, max_pages=10):
+        print("\n[Source] free-courses.eu")
+        count = 0
+        for page in range(1, max_pages + 1):
+            url  = ("https://www.free-courses.eu/" if page == 1
+                    else f"https://www.free-courses.eu/page/{page}/")
+            html = self.fetch(url)
+            if not html:
+                break
+            soup  = BeautifulSoup(html, "lxml")
+            items = soup.find_all("article") or soup.find_all("div", class_=re.compile("post|course"))
+            if not items:
+                break
+            print(f"  Page {page}: {len(items)} items")
+            for item in items:
+                title_tag = item.find(["h2", "h3", "h4"])
+                if not title_tag:
+                    continue
+                a        = title_tag.find("a", href=True)
+                title    = title_tag.get_text(strip=True)
+                post_url = a["href"] if a else None
+                if not post_url:
+                    continue
+                if not post_url.startswith("http"):
+                    post_url = urljoin("https://www.free-courses.eu", post_url)
+                post_html = udemy_url = None
+                if "udemy.com/course/" in post_url:
+                    udemy_url = post_url
+                else:
+                    post_html = self.fetch(post_url)
+                    if post_html:
+                        ps = BeautifulSoup(post_html, "lxml")
+                        for link in ps.find_all("a", href=True):
+                            if "udemy.com/course/" in link["href"]:
+                                udemy_url = link["href"]
+                                break
+                if self.add_course(title, udemy_url, "free-courses.eu",
+                                   "Udemy", post_html=post_html):
+                    count += 1
+            time.sleep(1.5)
+        print(f"  → {count} new courses from free-courses.eu")
+        self.stats["sources"]["free-courses.eu"] = count
         return count
 
     # ─────────────────────────────────────────────
@@ -806,34 +911,36 @@ class MultiPlatformScraper:
     def run(self):
         start = datetime.utcnow()
         print(f"{'='*60}")
-        print("MULTI-PLATFORM SCRAPER  v6")
+        print("MULTI-PLATFORM SCRAPER  v7")
         print(f"Started: {start.strftime('%Y-%m-%d %H:%M UTC')}")
+        print(f"Sources: freebiesglobal + coursevania + comidoc + new blogs")
         print(f"{'='*60}")
 
-        # ── Udemy sources ─────────────────────────
-        self.scrape_real_discount(max_pages=15)
-        self.scrape_tutorialbar(max_pages=15)
-        self.scrape_discudemy(max_pages=15)
-        self.scrape_blog("couponscorpion.com",   "https://couponscorpion.com",   max_pages=8)
-        self.scrape_blog("freebiesglobal.com",   "https://freebiesglobal.com",   max_pages=8)
-        self.scrape_blog("coursecouponclub.com", "https://coursecouponclub.com", max_pages=8)
-        self.scrape_blog("udemyfree.eu.org",     "https://udemyfree.eu.org",     max_pages=6)
-        self.scrape_blog("idownloadcoupon.com",  "https://idownloadcoupon.com",  max_pages=6)
-        self.scrape_blog("onlinecourses.ooo",    "https://onlinecourses.ooo",    max_pages=6)
-        self.scrape_blog("udemyking.com",        "https://udemyking.com",        max_pages=6)
+        # ── JSON API sources (most reliable) ──────
+        self.scrape_coursevania(max_pages=15)
+        self.scrape_comidoc(max_pages=15)
+
+        # ── Working blog sources ───────────────────
+        self.scrape_blog("freebiesglobal.com",     "https://freebiesglobal.com",     max_pages=10)
+        self.scrape_udemyfreecourses(max_pages=10)
+        self.scrape_free_courses_eu(max_pages=10)
+        self.scrape_blog("udemyfree.eu.org",       "https://udemyfree.eu.org",       max_pages=8)
+        self.scrape_blog("idownloadcoupon.com",    "https://idownloadcoupon.com",    max_pages=8)
+        self.scrape_tutorialbar(max_pages=10)
+        self.scrape_discudemy(max_pages=10)
 
         # ── Other platforms ───────────────────────
         self.scrape_coursera(max_pages=5)
 
-        print(f"\n📦 Total unique courses: {len(self.courses)}")
-        print(f"🚫 Blocked by filter:   {self.stats['blocked']}")
+        print(f"\n📦 Total unique courses : {len(self.courses)}")
+        print(f"🚫 Blocked by filter    : {self.stats['blocked']}")
 
         self.enrich_thumbnails(batch_size=15)
         self.validate_coupons(max_check=50)
         self.save_to_supabase()
         self.save_json()
 
-        # ── Report ────────────────────────────────
+        # ── Final report ──────────────────────────
         duration = (datetime.utcnow() - start).seconds
         by_cat   = {}
         for c in self.courses.values():
@@ -850,7 +957,11 @@ class MultiPlatformScraper:
         print(f"Old cleaned     : {self.stats['cleaned']}")
         print(f"\nBy source:")
         for src, n in sorted(self.stats["sources"].items(), key=lambda x: -x[1]):
-            print(f"  {src:32} | {n:4}")
+            status = "✅" if n > 0 else "❌"
+            print(f"  {status} {src:32} | {n:4}")
+        print(f"\nBy category:")
+        for cat, n in sorted(by_cat.items(), key=lambda x: -x[1]):
+            print(f"  {cat:15} | {n:4} | {'█' * min(n // 10, 30)}")
         print("\n✅ Done!")
 
 
