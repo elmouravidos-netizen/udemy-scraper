@@ -1,0 +1,30 @@
+name: Enrich Arabic SEO Content
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    # Runs 30 minutes after the scraper's own schedule so new rows exist.
+    # Adjust to match your existing scrape.yml cron.
+    - cron: "30 */6 * * *"
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Arabic content enrichment
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python enrich_arabic_content.py
