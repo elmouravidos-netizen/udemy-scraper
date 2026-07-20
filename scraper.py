@@ -1,10 +1,14 @@
 """
-Multi-Platform Free Courses Scraper  v6
-Fixes:
-  - Cleans old courses from Supabase after each run
-  - Fixes "Expired" prefix in titles
-  - Properly updates scraped_at on every run
-  - Better source error handling
+Multi-Platform Free Courses Scraper  v8
+Changes from v7:
+  - Rotates User-Agents + retries with backoff on Udemy 403/429
+    (fixes description/instructor/rating/language coming back empty)
+  - Detects REAL course_language from Udemy page instead of assuming English
+  - NEVER hard-deletes courses anymore (was breaking SEO via 404s on
+    already-indexed pages) — marks is_expired = True instead
+  - Auto-expires courses past their estimated coupon window
+  - Every upserted row gets content_status='pending' so the separate
+    Arabic content-enrichment workflow knows what to process
 """
 
 import requests
@@ -13,6 +17,7 @@ import json
 import re
 import time
 import os
+import random
 from datetime import datetime, timedelta
 from urllib.parse import quote, urljoin
 
@@ -47,12 +52,30 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.9",
 }
 
-UDEMY_HEADERS = {
-    **HEADERS,
-    "Cache-Control": "no-cache",
-    "Pragma": "no-cache",
-    "Upgrade-Insecure-Requests": "1",
-}
+# Rotate user-agents — Udemy fingerprints and blocks a single static UA
+# hit repeatedly from a datacenter IP (GitHub Actions runners).
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 "
+    "(KHTML, like Gecko) Version/17.4 Safari/605.1.15",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/125.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 "
+    "Firefox/126.0",
+]
+
+
+def get_udemy_headers():
+    return {
+        "User-Agent": random.choice(USER_AGENTS),
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9,ar;q=0.8",
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache",
+        "Upgrade-Insecure-Requests": "1",
+        "Referer": "https://www.google.com/",
+    }
 
 
 class MultiPlatformScraper:
@@ -187,14 +210,12 @@ class MultiPlatformScraper:
         if not title or len(title) < 8:
             return False
 
-        # ── Detect and fix expired titles ─────────
         expired_from_title = self.is_expired_title(title)
         title = self.clean_title(title)
 
         if self.is_blocked(title):
             return False
 
-        # ── Build slug/key ────────────────────────
         if platform == "Udemy":
             slug = self.extract_slug(url)
         else:
@@ -227,6 +248,7 @@ class MultiPlatformScraper:
 
         self.courses[key] = {
             "id":           key,
+            "slug":         slug,
             "title":        title,
             "url":          url,
             "platform":     platform,
@@ -239,66 +261,94 @@ class MultiPlatformScraper:
             "description":  description,
             "rating":       None,
             "students":     None,
-            # ✅ FIX: properly mark expired from title
+            "course_language": None,   # filled in by enrich_thumbnails(), never hardcoded
             "is_expired":   expired_from_title,
-            # ✅ FIX: always use current time so courses rotate
             "scraped_at":   now,
             "last_seen_at": now,
             "expires_at":   (datetime.utcnow() + timedelta(days=3)).isoformat(),
+            "content_status": "pending",  # Arabic enrichment workflow picks this up
         }
         self.stats["platforms"][platform] = self.stats["platforms"].get(platform, 0) + 1
         return True
 
     # ─────────────────────────────────────────────
-    # THUMBNAIL ENRICHMENT
+    # THUMBNAIL + METADATA ENRICHMENT
     # ─────────────────────────────────────────────
 
-    def get_udemy_meta(self, slug):
+    def get_udemy_meta(self, slug, retries=3):
         url = f"https://www.udemy.com/course/{slug}/"
-        try:
-            resp = self.session.get(url, timeout=20, headers=UDEMY_HEADERS, allow_redirects=True)
-            if resp.status_code != 200:
-                return {}
-            soup   = BeautifulSoup(resp.text, "lxml")
-            result = {}
-            og = soup.find("meta", property="og:image")
-            if og and og.get("content", "").startswith("http"):
-                result["thumbnail"] = og["content"]
-            if not result.get("thumbnail"):
-                tw = soup.find("meta", attrs={"name": "twitter:image"})
-                if tw and tw.get("content", "").startswith("http"):
-                    result["thumbnail"] = tw["content"]
-            for script in soup.find_all("script", type="application/ld+json"):
-                try:
-                    data = json.loads(script.string or "")
-                    if isinstance(data, list):
-                        data = next((d for d in data if d.get("@type") == "Course"), {})
-                    if data.get("@type") != "Course":
-                        continue
-                    if not result.get("thumbnail"):
-                        img = data.get("image")
-                        if isinstance(img, str) and img.startswith("http"):
-                            result["thumbnail"] = img
-                        elif isinstance(img, dict):
-                            result["thumbnail"] = img.get("url", "")
-                    result["title"]       = (data.get("name") or "").strip() or None
-                    result["description"] = (data.get("description") or "")[:300] or None
-                    author = data.get("author") or data.get("instructor")
-                    if isinstance(author, list) and author:
-                        author = author[0]
-                    if isinstance(author, dict):
-                        result["instructor"] = author.get("name")
-                    agg = data.get("aggregateRating", {})
-                    if agg:
-                        result["rating"]   = agg.get("ratingValue")
-                        result["students"] = agg.get("ratingCount") or agg.get("reviewCount")
-                    break
-                except Exception:
+        for attempt in range(retries):
+            try:
+                resp = self.session.get(
+                    url, timeout=20, headers=get_udemy_headers(), allow_redirects=True
+                )
+                if resp.status_code == 403:
+                    wait = 4 * (attempt + 1) + random.uniform(1, 3)
+                    print(f"  🚫 403 on {slug} — backing off {wait:.1f}s (attempt {attempt+1}/{retries})")
+                    time.sleep(wait)
                     continue
-            return result
-        except Exception as e:
-            print(f"  ⚠️  Udemy meta: {e}")
-            return {}
+                if resp.status_code == 429:
+                    wait = 6 * (attempt + 1)
+                    print(f"  ⏳ Rate limited on {slug} — waiting {wait}s")
+                    time.sleep(wait)
+                    continue
+                if resp.status_code != 200:
+                    return {}
+
+                soup = BeautifulSoup(resp.text, "lxml")
+                result = {}
+
+                og = soup.find("meta", property="og:image")
+                if og and og.get("content", "").startswith("http"):
+                    result["thumbnail"] = og["content"]
+                if not result.get("thumbnail"):
+                    tw = soup.find("meta", attrs={"name": "twitter:image"})
+                    if tw and tw.get("content", "").startswith("http"):
+                        result["thumbnail"] = tw["content"]
+
+                # Real course language, straight from the page <html lang="">
+                html_tag = soup.find("html")
+                if html_tag and html_tag.get("lang"):
+                    result["course_language"] = html_tag["lang"].split("-")[0]
+
+                for script in soup.find_all("script", type="application/ld+json"):
+                    try:
+                        data = json.loads(script.string or "")
+                        if isinstance(data, list):
+                            data = next((d for d in data if d.get("@type") == "Course"), {})
+                        if data.get("@type") != "Course":
+                            continue
+                        if not result.get("thumbnail"):
+                            img = data.get("image")
+                            if isinstance(img, str) and img.startswith("http"):
+                                result["thumbnail"] = img
+                            elif isinstance(img, dict):
+                                result["thumbnail"] = img.get("url", "")
+                        result["title"] = (data.get("name") or "").strip() or None
+                        result["description"] = (data.get("description") or "")[:500] or None
+                        if data.get("inLanguage"):
+                            result["course_language"] = str(data["inLanguage"]).split("-")[0]
+                        author = data.get("author") or data.get("instructor")
+                        if isinstance(author, list) and author:
+                            author = author[0]
+                        if isinstance(author, dict):
+                            result["instructor"] = author.get("name")
+                        agg = data.get("aggregateRating", {})
+                        if agg:
+                            result["rating"] = agg.get("ratingValue")
+                            result["students"] = agg.get("ratingCount") or agg.get("reviewCount")
+                        break
+                    except Exception:
+                        continue
+
+                result.setdefault("course_language", None)
+                return result
+
+            except Exception as e:
+                print(f"  ⚠️  Udemy meta attempt {attempt+1} failed for {slug}: {e}")
+                time.sleep(2 * (attempt + 1))
+
+        return {}
 
     def generate_placeholder(self, title, category):
         colors = {
@@ -314,7 +364,7 @@ class MultiPlatformScraper:
 
     def enrich_thumbnails(self, batch_size=15):
         print(f"\n{'='*60}")
-        print(f"ENRICHING THUMBNAILS — {len(self.courses)} courses")
+        print(f"ENRICHING THUMBNAILS + METADATA — {len(self.courses)} courses")
         print(f"{'='*60}")
 
         udemy_page_needed = [
@@ -330,19 +380,16 @@ class MultiPlatformScraper:
 
         for i, course in enumerate(items, 1):
 
-            # ── Already has thumbnail (real.discount, Coursera etc.) ──
             if course.get("thumbnail"):
                 self.stats["thumbnails"]["real"] += 1
                 course.pop("_blog_thumb", None)
                 continue
 
-            # ── Has blog-scraped thumbnail ────────────────────────────
             if course.get("_blog_thumb"):
                 course["thumbnail"] = course.pop("_blog_thumb")
                 self.stats["thumbnails"]["blog"] += 1
                 continue
 
-            # ── Needs Udemy page visit ────────────────────────────────
             if course["platform"] == "Udemy":
                 slug = course["id"].split(":", 1)[1]
                 print(f"  [{visited+1}/{len(udemy_page_needed)}] {course['title'][:50]}...")
@@ -357,8 +404,8 @@ class MultiPlatformScraper:
                     )
                     self.stats["thumbnails"]["placeholder"] += 1
 
-                for field in ("title", "instructor", "description"):
-                    if meta.get(field) and len(str(meta[field])) > 5:
+                for field in ("title", "instructor", "description", "course_language"):
+                    if meta.get(field) and len(str(meta[field])) > 1:
                         course[field] = meta[field]
                 if meta.get("rating"):
                     try: course["rating"] = round(float(meta["rating"]), 1)
@@ -374,7 +421,6 @@ class MultiPlatformScraper:
                 else:
                     time.sleep(0.8)
             else:
-                # Non-Udemy platform with no thumbnail
                 course["thumbnail"] = self.generate_placeholder(
                     course["title"], course["category"]
                 )
@@ -400,20 +446,26 @@ class MultiPlatformScraper:
             "coupon code entered is not valid",
         ]
         checked = 0
-        for key, course in list(self.courses.items()):
-            if course["platform"] != "Udemy":
-                continue
-            if not course.get("coupon_code") or checked >= max_check:
-                continue
+        # Prioritize courses closest to their estimated expiry first
+        candidates = [
+            c for c in self.courses.values()
+            if c["platform"] == "Udemy" and c.get("coupon_code")
+        ]
+        candidates.sort(key=lambda c: c.get("expires_at") or "")
+
+        for course in candidates:
+            if checked >= max_check:
+                break
             try:
                 resp = self.session.get(
-                    course["url"], headers=UDEMY_HEADERS, timeout=15, allow_redirects=True
+                    course["url"], headers=get_udemy_headers(), timeout=15, allow_redirects=True
                 )
                 if any(kw in resp.text.lower() for kw in expired_kw):
                     course["is_expired"] = True
                     self.stats["expired"] += 1
                     print(f"  ❌ {course['title'][:52]}")
                 else:
+                    course["last_verified_at"] = datetime.utcnow().isoformat()
                     print(f"  ✅ {course['title'][:52]}")
                 checked += 1
                 time.sleep(0.5)
@@ -505,14 +557,12 @@ class MultiPlatformScraper:
                 print(f"  Page {page}: {len(results)} items")
                 for item in results:
                     title = item.get("title", {}).get("rendered", "").strip()
-                    title = re.sub(r'<[^>]+>', '', title)  # strip HTML tags
-                    # Get Udemy URL from content
+                    title = re.sub(r'<[^>]+>', '', title)
                     content   = item.get("content", {}).get("rendered", "")
                     udemy_url = None
                     m = re.search(r'https?://www\.udemy\.com/course/[^"\'>\s]+', content)
                     if m:
                         udemy_url = m.group(0).rstrip('/')
-                    # Thumbnail from featured media
                     thumb = None
                     embedded = item.get("_embedded", {})
                     media    = embedded.get("wp:featuredmedia", [{}])
@@ -812,7 +862,7 @@ class MultiPlatformScraper:
         return count
 
     # ─────────────────────────────────────────────
-    # ✅ SUPABASE — Save + Cleanup old courses
+    # ✅ SUPABASE — Save + mark stale (NEVER delete)
     # ─────────────────────────────────────────────
 
     def save_to_supabase(self):
@@ -823,10 +873,13 @@ class MultiPlatformScraper:
         print("SAVING TO SUPABASE")
         print(f"{'='*60}")
 
-        items      = [
+        items = [
             {k: v for k, v in c.items() if not k.startswith("_")}
             for c in self.courses.values()
         ]
+        for item in items:
+            item.setdefault("content_status", "pending")
+
         batch_size = 50
         saved      = 0
 
@@ -844,23 +897,40 @@ class MultiPlatformScraper:
             except Exception as e:
                 print(f"  ❌ Batch error: {e}")
 
-        # ✅ FIX: Delete courses older than 8 days (not seen in recent runs)
-        print("\n🧹 Cleaning old courses...")
+        # ✅ FIX: mark stale courses instead of deleting them.
+        # Deleting a row that Google already indexed turns it into a 404,
+        # which damages SEO. Flag it instead — the page stays live.
+        print("\n🏷️  Marking stale courses as expired (no deletes)...")
         try:
             cutoff = (datetime.utcnow() - timedelta(days=8)).isoformat()
             result = (
                 self.supabase.table("udemy_courses")
-                .delete()
+                .update({"is_expired": True})
                 .lt("scraped_at", cutoff)
+                .eq("is_expired", False)
                 .execute()
             )
-            deleted = len(result.data) if result.data else 0
-            self.stats["cleaned"] = deleted
-            print(f"  🗑️  Deleted {deleted} old courses (older than 8 days)")
+            marked = len(result.data) if result.data else 0
+            self.stats["cleaned"] = marked
+            print(f"  🏷️  Marked {marked} stale courses as expired (kept in DB)")
         except Exception as e:
-            print(f"  ⚠️  Cleanup error: {e}")
+            print(f"  ⚠️  Expiry marking error: {e}")
 
-        # Log the run
+        # Auto-expire anything past its estimated coupon window
+        try:
+            now = datetime.utcnow().isoformat()
+            result = (
+                self.supabase.table("udemy_courses")
+                .update({"is_expired": True})
+                .lt("expires_at", now)
+                .eq("is_expired", False)
+                .execute()
+            )
+            expired_now = len(result.data) if result.data else 0
+            print(f"  ⏰ Auto-expired {expired_now} courses past their coupon window")
+        except Exception as e:
+            print(f"  ⚠️  Auto-expire error: {e}")
+
         try:
             self.supabase.table("scrape_runs").insert({
                 "total_found": len(self.courses),
@@ -871,7 +941,7 @@ class MultiPlatformScraper:
         except Exception:
             pass
 
-        print(f"\n✅ Saved: {saved} | Cleaned: {self.stats['cleaned']}")
+        print(f"\n✅ Saved: {saved} | Marked stale: {self.stats.get('cleaned', 0)}")
 
     # ─────────────────────────────────────────────
     # SAVE JSON BACKUP
@@ -911,16 +981,14 @@ class MultiPlatformScraper:
     def run(self):
         start = datetime.utcnow()
         print(f"{'='*60}")
-        print("MULTI-PLATFORM SCRAPER  v7")
+        print("MULTI-PLATFORM SCRAPER  v8")
         print(f"Started: {start.strftime('%Y-%m-%d %H:%M UTC')}")
         print(f"Sources: freebiesglobal + coursevania + comidoc + new blogs")
         print(f"{'='*60}")
 
-        # ── JSON API sources (most reliable) ──────
         self.scrape_coursevania(max_pages=15)
         self.scrape_comidoc(max_pages=15)
 
-        # ── Working blog sources ───────────────────
         self.scrape_blog("freebiesglobal.com",     "https://freebiesglobal.com",     max_pages=10)
         self.scrape_udemyfreecourses(max_pages=10)
         self.scrape_free_courses_eu(max_pages=10)
@@ -929,7 +997,6 @@ class MultiPlatformScraper:
         self.scrape_tutorialbar(max_pages=10)
         self.scrape_discudemy(max_pages=10)
 
-        # ── Other platforms ───────────────────────
         self.scrape_coursera(max_pages=5)
 
         print(f"\n📦 Total unique courses : {len(self.courses)}")
@@ -940,7 +1007,6 @@ class MultiPlatformScraper:
         self.save_to_supabase()
         self.save_json()
 
-        # ── Final report ──────────────────────────
         duration = (datetime.utcnow() - start).seconds
         by_cat   = {}
         for c in self.courses.values():
@@ -954,7 +1020,7 @@ class MultiPlatformScraper:
         print(f"Total courses   : {len(self.courses)}")
         print(f"Blocked         : {self.stats['blocked']}")
         print(f"Expired removed : {self.stats['expired']}")
-        print(f"Old cleaned     : {self.stats['cleaned']}")
+        print(f"Old marked      : {self.stats['cleaned']}")
         print(f"\nBy source:")
         for src, n in sorted(self.stats["sources"].items(), key=lambda x: -x[1]):
             status = "✅" if n > 0 else "❌"
