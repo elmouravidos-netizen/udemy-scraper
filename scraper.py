@@ -986,18 +986,21 @@ class MultiPlatformScraper:
         print(f"Sources: freebiesglobal + coursevania + comidoc + new blogs")
         print(f"{'='*60}")
 
-        self.scrape_coursevania(max_pages=15)
-        self.scrape_comidoc(max_pages=15)
+        # Volume trimmed on purpose: keep daily new-course count within
+        # what the Arabic enrichment step (Gemini free tier) can clear
+        # same-day. Raise these again once billing is enabled on Gemini.
+        self.scrape_coursevania(max_pages=3)
+        self.scrape_comidoc(max_pages=3)
 
-        self.scrape_blog("freebiesglobal.com",     "https://freebiesglobal.com",     max_pages=10)
-        self.scrape_udemyfreecourses(max_pages=10)
-        self.scrape_free_courses_eu(max_pages=10)
-        self.scrape_blog("udemyfree.eu.org",       "https://udemyfree.eu.org",       max_pages=8)
-        self.scrape_blog("idownloadcoupon.com",    "https://idownloadcoupon.com",    max_pages=8)
-        self.scrape_tutorialbar(max_pages=10)
-        self.scrape_discudemy(max_pages=10)
+        self.scrape_blog("freebiesglobal.com",     "https://freebiesglobal.com",     max_pages=2)
+        self.scrape_udemyfreecourses(max_pages=2)
+        self.scrape_free_courses_eu(max_pages=2)
+        self.scrape_blog("udemyfree.eu.org",       "https://udemyfree.eu.org",       max_pages=2)
+        self.scrape_blog("idownloadcoupon.com",    "https://idownloadcoupon.com",    max_pages=2)
+        self.scrape_tutorialbar(max_pages=2)
+        self.scrape_discudemy(max_pages=2)
 
-        self.scrape_coursera(max_pages=5)
+        self.scrape_coursera(max_pages=1)
 
         print(f"\n📦 Total unique courses : {len(self.courses)}")
         print(f"🚫 Blocked by filter    : {self.stats['blocked']}")
