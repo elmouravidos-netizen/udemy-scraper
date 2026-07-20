@@ -20,7 +20,7 @@ GEMINI_URL   = (
     f"{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
 )
 
-BATCH_LIMIT = 40
+BATCH_LIMIT = 10  # keep small until you confirm your Gemini quota/tier
 
 RESPONSE_SCHEMA = {
     "type": "object",
@@ -88,7 +88,11 @@ def build_prompt(course):
 """
 
 
-def call_gemini(course):
+class RateLimited(Exception):
+    pass
+
+
+def call_gemini(course, retries=3):
     payload = {
         "contents": [{"parts": [{"text": build_prompt(course)}]}],
         "generationConfig": {
@@ -97,11 +101,18 @@ def call_gemini(course):
             "temperature": 0.6,
         },
     }
-    resp = requests.post(GEMINI_URL, json=payload, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
-    text = data["candidates"][0]["content"]["parts"][0]["text"]
-    return json.loads(text)
+    for attempt in range(retries):
+        resp = requests.post(GEMINI_URL, json=payload, timeout=30)
+        if resp.status_code == 429:
+            wait = 20 * (attempt + 1)
+            print(f"    rate limited, waiting {wait}s (attempt {attempt+1}/{retries})")
+            time.sleep(wait)
+            continue
+        resp.raise_for_status()
+        data = resp.json()
+        text = data["candidates"][0]["content"]["parts"][0]["text"]
+        return json.loads(text)
+    raise RateLimited("still rate limited after retries")
 
 
 def supabase_headers():
@@ -156,6 +167,9 @@ def main():
             })
             ok += 1
             print("  generated ok")
+        except RateLimited as e:
+            print(f"  skipped (still rate limited): {e} — left as pending for next run")
+            failed += 1
         except Exception as e:
             print(f"  failed: {e}")
             try:
@@ -163,7 +177,7 @@ def main():
             except Exception:
                 pass
             failed += 1
-        time.sleep(1.2)
+        time.sleep(4)  # slower pace to respect free-tier RPM limits
 
     print("\n" + "=" * 60)
     print(f"Done. Generated: {ok} | Failed: {failed} | Total: {len(rows)}")
