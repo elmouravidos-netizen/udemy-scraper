@@ -23,13 +23,10 @@ OPENROUTER_KEY   = os.environ["OPENROUTER_API_KEY"]
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
-# Pass 1: generation — free models only, rotated, $0 cost
-FREE_MODELS = [
-    "meta-llama/llama-3.3-70b-instruct:free",
-    "google/gemini-2.0-flash-exp:free",
-    "qwen/qwen-2.5-72b-instruct:free",
-    "mistralai/mistral-small-3.1-24b-instruct:free",
-]
+# Pass 1: generation — OpenRouter's free-models router. It auto-picks
+# from all currently available free models, so we don't hardcode slugs
+# that go stale when OpenRouter deprecates/renames individual models.
+GENERATION_MODEL = "openrouter/free"
 
 # Pass 2: review — small paid model, strong at Arabic, very cheap
 # (a few cents per 100 courses). Set REVIEW_ENABLED=False to skip and
@@ -134,40 +131,39 @@ def review_and_fix(course, content):
         return content
 
 
-def call_openrouter(course):
+def call_openrouter(course, retries=3):
     headers = {
         "Authorization": f"Bearer {OPENROUTER_KEY}",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://cvsirati.com",
         "X-Title": "cvsirati arabic enrichment",
     }
+    payload = {
+        "model": GENERATION_MODEL,
+        "messages": [{"role": "user", "content": build_prompt(course)}],
+        "temperature": 0.6,
+        "max_tokens": 900,
+        # Hard cost cap: never allow this request to spend beyond $0.
+        "max_price": {"prompt": 0, "completion": 0},
+    }
     last_err = None
-    for model in FREE_MODELS:
-        payload = {
-            "model": model,
-            "messages": [{"role": "user", "content": build_prompt(course)}],
-            "temperature": 0.6,
-            "max_tokens": 900,
-            # Hard cost cap: never allow this request to spend beyond $0.
-            # If no free provider can serve it, the call fails safely
-            # instead of silently billing you.
-            "max_price": {"prompt": 0, "completion": 0},
-        }
+    for attempt in range(retries):
         try:
             resp = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=40)
             if resp.status_code == 429:
-                print(f"    {model}: rate limited, trying next model")
-                last_err = "429 on all free models tried"
+                wait = 15 * (attempt + 1)
+                print(f"    rate limited, waiting {wait}s (attempt {attempt+1}/{retries})")
+                time.sleep(wait)
                 continue
             resp.raise_for_status()
             data = resp.json()
             text = data["choices"][0]["message"]["content"]
             return extract_json(text)
         except Exception as e:
-            print(f"    {model}: {e}")
+            print(f"    attempt {attempt+1} failed: {e}")
             last_err = e
-            continue
-    raise RuntimeError(f"all free models failed: {last_err}")
+            time.sleep(3)
+    raise RuntimeError(f"generation failed after retries: {last_err}")
 
 
 def supabase_headers():
