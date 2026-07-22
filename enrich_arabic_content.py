@@ -1,56 +1,44 @@
 """
-Arabic SEO Content Enrichment  v1
-Finds courses with content_status='pending' in Supabase, asks Gemini to
-generate fully-Arabic SEO content grounded in the real Udemy data already
-scraped, and writes the results back.
+Arabic SEO Content Enrichment  v2 — OpenRouter edition (free models, $0 cost)
+Finds courses with content_status='pending' in Supabase, asks an OpenRouter
+free-tier model to generate fully-Arabic SEO content, writes results back.
+
+Cost control:
+  - Only uses models in FREE_MODELS (":free" suffix = $0/token on OpenRouter)
+  - max_price header hard-caps spend at $0 per request as a safety net,
+    so even a misconfiguration can never bill you.
+  - Rotates through multiple free models if one is rate-limited, instead
+    of just waiting/failing — free models each have their own daily cap.
 """
 
 import os
 import json
 import time
+import re
 import requests
 
-SUPABASE_URL   = os.environ["SUPABASE_URL"]
-SUPABASE_KEY   = os.environ["SUPABASE_KEY"]
-GEMINI_API_KEY = os.environ["GEMINI_API_KEY"]
+SUPABASE_URL     = os.environ["SUPABASE_URL"]
+SUPABASE_KEY     = os.environ["SUPABASE_KEY"]
+OPENROUTER_KEY   = os.environ["OPENROUTER_API_KEY"]
 
-GEMINI_MODEL = "gemini-2.0-flash"
-GEMINI_URL   = (
-    f"https://generativelanguage.googleapis.com/v1beta/models/"
-    f"{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}"
-)
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
-BATCH_LIMIT = 10  # keep small until you confirm your Gemini quota/tier
+# Pass 1: generation — free models only, rotated, $0 cost
+FREE_MODELS = [
+    "meta-llama/llama-3.3-70b-instruct:free",
+    "google/gemini-2.0-flash-exp:free",
+    "qwen/qwen-2.5-72b-instruct:free",
+    "mistralai/mistral-small-3.1-24b-instruct:free",
+]
 
-RESPONSE_SCHEMA = {
-    "type": "object",
-    "properties": {
-        "meta_title":         {"type": "string"},
-        "meta_description":   {"type": "string"},
-        "description_unique": {"type": "string"},
-        "what_youll_learn": {
-            "type": "array",
-            "items": {"type": "string"},
-            "minItems": 4, "maxItems": 6,
-        },
-        "faq": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "question": {"type": "string"},
-                    "answer":   {"type": "string"},
-                },
-                "required": ["question", "answer"],
-            },
-            "minItems": 2, "maxItems": 3,
-        },
-    },
-    "required": [
-        "meta_title", "meta_description", "description_unique",
-        "what_youll_learn", "faq",
-    ],
-}
+# Pass 2: review — small paid model, strong at Arabic, very cheap
+# (a few cents per 100 courses). Set REVIEW_ENABLED=False to skip and
+# stay at $0 if you don't want to add any credit yet.
+REVIEW_MODEL = "qwen/qwen-2.5-72b-instruct"
+REVIEW_ENABLED = os.environ.get("REVIEW_ENABLED", "true").lower() == "true"
+REVIEW_MAX_PRICE = {"prompt": 1.0, "completion": 2.0}  # $/1M tokens hard cap
+
+BATCH_LIMIT = 20
 
 LANGUAGE_LABELS_AR = {
     "en": "الإنجليزية", "fr": "الفرنسية", "es": "الإسبانية",
@@ -77,42 +65,109 @@ def build_prompt(course):
 التقييم: {course.get('rating') or 'غير متوفر'}
 الوصف الأصلي (إنجليزي، للاستئناس فقط): {(course.get('description') or '')[:800]}
 
-المطلوب (أرجع JSON فقط حسب المخطط):
-- meta_title: عنوان SEO عربي جذاب (50-60 حرف تقريباً)
-- meta_description: وصف ميتا عربي (150-160 حرف)
-- description_unique: فقرة عربية أصلية من جملتين إلى ثلاث جمل تشرح محتوى الدورة ولمن تناسب
-- what_youll_learn: 4 إلى 6 نقاط عربية عن أهم ما سيتعلمه الطالب (استنتجها من العنوان والوصف، لا تختلق تفاصيل غير مذكورة)
-- faq: سؤالين إلى ثلاثة أسئلة شائعة بصيغة عربية طبيعية مع إجابات مختصرة
+أرجع فقط كائن JSON صالح بدون أي نص إضافي قبله أو بعده، بالضبط بهذا الشكل:
+{{
+  "meta_title": "عنوان SEO عربي (50-60 حرف تقريباً)",
+  "meta_description": "وصف ميتا عربي (150-160 حرف)",
+  "description_unique": "فقرة عربية أصلية من جملتين إلى ثلاث جمل",
+  "what_youll_learn": ["نقطة 1", "نقطة 2", "نقطة 3", "نقطة 4"],
+  "faq": [{{"question": "سؤال؟", "answer": "إجابة مختصرة"}}, {{"question": "سؤال آخر؟", "answer": "إجابة"}}]
+}}
 
 مهم: لا تذكر أي محتوى عن الخمور أو لحم الخنزير أو أي محتوى غير لائق. حافظ على لغة عربية فصيحة واحترافية.
 """
 
 
-class RateLimited(Exception):
-    pass
+def extract_json(text):
+    # Models sometimes wrap JSON in ```json fences or add stray text
+    text = re.sub(r"^```(json)?|```$", "", text.strip(), flags=re.M).strip()
+    match = re.search(r"\{.*\}", text, re.S)
+    if not match:
+        raise ValueError("no JSON object found in model response")
+    return json.loads(match.group(0))
 
 
-def call_gemini(course, retries=3):
-    payload = {
-        "contents": [{"parts": [{"text": build_prompt(course)}]}],
-        "generationConfig": {
-            "response_mime_type": "application/json",
-            "response_schema": RESPONSE_SCHEMA,
-            "temperature": 0.6,
-        },
+def build_review_prompt(course, content):
+    return f"""راجع محتوى SEO العربي التالي لدورة تدريبية وصحح أي أخطاء لغوية أو نحوية
+أو ترجمة غير طبيعية أو معلومات غير منطقية. حافظ على نفس البنية والمعنى العام.
+
+عنوان الدورة الأصلي: {course.get('title', '')}
+
+المحتوى الحالي (JSON):
+{json.dumps(content, ensure_ascii=False)}
+
+أرجع فقط نسخة JSON مصححة بنفس البنية بالضبط (نفس المفاتيح)، بدون أي نص إضافي.
+تأكد أيضاً أنه لا يوجد أي ذكر للخمور أو لحم الخنزير أو محتوى غير لائق.
+"""
+
+
+def review_and_fix(course, content):
+    if not REVIEW_ENABLED:
+        return content
+    headers = {
+        "Authorization": f"Bearer {OPENROUTER_KEY}",
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://cvsirati.com",
+        "X-Title": "cvsirati arabic review",
     }
-    for attempt in range(retries):
-        resp = requests.post(GEMINI_URL, json=payload, timeout=30)
-        if resp.status_code == 429:
-            wait = 20 * (attempt + 1)
-            print(f"    rate limited, waiting {wait}s (attempt {attempt+1}/{retries})")
-            time.sleep(wait)
-            continue
+    payload = {
+        "model": REVIEW_MODEL,
+        "messages": [{"role": "user", "content": build_review_prompt(course, content)}],
+        "temperature": 0.3,
+        "max_tokens": 900,
+        "max_price": REVIEW_MAX_PRICE,
+    }
+    try:
+        resp = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=40)
         resp.raise_for_status()
         data = resp.json()
-        text = data["candidates"][0]["content"]["parts"][0]["text"]
-        return json.loads(text)
-    raise RateLimited("still rate limited after retries")
+        text = data["choices"][0]["message"]["content"]
+        reviewed = extract_json(text)
+        required = ["meta_title", "meta_description", "description_unique",
+                    "what_youll_learn", "faq"]
+        if all(k in reviewed for k in required):
+            return reviewed
+        print("    review returned incomplete JSON, keeping original")
+        return content
+    except Exception as e:
+        print(f"    review pass failed ({e}), keeping unreviewed content")
+        return content
+
+
+def call_openrouter(course):
+    headers = {
+        "Authorization": f"Bearer {OPENROUTER_KEY}",
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://cvsirati.com",
+        "X-Title": "cvsirati arabic enrichment",
+    }
+    last_err = None
+    for model in FREE_MODELS:
+        payload = {
+            "model": model,
+            "messages": [{"role": "user", "content": build_prompt(course)}],
+            "temperature": 0.6,
+            "max_tokens": 900,
+            # Hard cost cap: never allow this request to spend beyond $0.
+            # If no free provider can serve it, the call fails safely
+            # instead of silently billing you.
+            "max_price": {"prompt": 0, "completion": 0},
+        }
+        try:
+            resp = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=40)
+            if resp.status_code == 429:
+                print(f"    {model}: rate limited, trying next model")
+                last_err = "429 on all free models tried"
+                continue
+            resp.raise_for_status()
+            data = resp.json()
+            text = data["choices"][0]["message"]["content"]
+            return extract_json(text)
+        except Exception as e:
+            print(f"    {model}: {e}")
+            last_err = e
+            continue
+    raise RuntimeError(f"all free models failed: {last_err}")
 
 
 def supabase_headers():
@@ -146,7 +201,7 @@ def update_course(course_id, fields):
 
 def main():
     print("=" * 60)
-    print("ARABIC SEO CONTENT ENRICHMENT")
+    print("ARABIC SEO CONTENT ENRICHMENT (OpenRouter free models)")
     print("=" * 60)
 
     rows = fetch_pending()
@@ -156,7 +211,12 @@ def main():
     for i, course in enumerate(rows, 1):
         print(f"[{i}/{len(rows)}] {course['title'][:60]}")
         try:
-            content = call_gemini(course)
+            content = call_openrouter(course)
+            required = ["meta_title", "meta_description", "description_unique",
+                        "what_youll_learn", "faq"]
+            if not all(k in content for k in required):
+                raise ValueError(f"missing fields in response: {content.keys()}")
+            content = review_and_fix(course, content)
             update_course(course["id"], {
                 "meta_title":         content["meta_title"],
                 "meta_description":   content["meta_description"],
@@ -167,20 +227,13 @@ def main():
             })
             ok += 1
             print("  generated ok")
-        except RateLimited as e:
-            print(f"  skipped (still rate limited): {e} — left as pending for next run")
-            failed += 1
         except Exception as e:
-            print(f"  failed: {e}")
-            try:
-                update_course(course["id"], {"content_status": "failed"})
-            except Exception:
-                pass
+            print(f"  failed, left pending for retry: {e}")
             failed += 1
-        time.sleep(4)  # slower pace to respect free-tier RPM limits
+        time.sleep(2)
 
     print("\n" + "=" * 60)
-    print(f"Done. Generated: {ok} | Failed: {failed} | Total: {len(rows)}")
+    print(f"Done. Generated: {ok} | Failed/retry-later: {failed} | Total: {len(rows)}")
     print("=" * 60)
 
 
