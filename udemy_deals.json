@@ -1,12 +1,12 @@
 {
   "meta": {
-    "scraped_at": "2026-11-02T04:42:43.484387",
-    "total_courses": 112,
+    "scraped_at": "2026-11-03T05:32:58.773592",
+    "total_courses": 113,
     "blocked": 2,
     "expired": 0,
     "cleaned": 0,
     "by_platform": {
-      "Udemy": 112
+      "Udemy": 113
     },
     "source_counts": {
       "coursevania.com": 0,
@@ -14,7 +14,7 @@
       "freebiesglobal.com": 110,
       "udemyfreecourses.org": 0,
       "free-courses.eu": 0,
-      "udemyfree.eu.org": 2,
+      "udemyfree.eu.org": 3,
       "idownloadcoupon.com": 0,
       "tutorialbar.com": 0,
       "discudemy.com": 0,
@@ -38,11 +38,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.002947",
-      "last_seen_at": "2026-11-02T04:38:34.002947",
-      "expires_at": "2026-11-05T04:38:34.002957",
+      "scraped_at": "2026-11-03T05:29:29.950261",
+      "last_seen_at": "2026-11-03T05:29:29.950261",
+      "expires_at": "2026-11-06T05:29:29.950272",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:07.058496"
+      "last_verified_at": "2026-11-03T05:32:22.398637"
     },
     {
       "id": "udemy:freelancingcareer",
@@ -60,11 +60,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.003216",
-      "last_seen_at": "2026-11-02T04:38:34.003216",
-      "expires_at": "2026-11-05T04:38:34.003220",
+      "scraped_at": "2026-11-03T05:29:29.950456",
+      "last_seen_at": "2026-11-03T05:29:29.950456",
+      "expires_at": "2026-11-06T05:29:29.950458",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:07.702127"
+      "last_verified_at": "2026-11-03T05:32:23.047111"
     },
     {
       "id": "udemy:oddjobsdiploma",
@@ -82,11 +82,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.003338",
-      "last_seen_at": "2026-11-02T04:38:34.003338",
-      "expires_at": "2026-11-05T04:38:34.003341",
+      "scraped_at": "2026-11-03T05:29:29.950542",
+      "last_seen_at": "2026-11-03T05:29:29.950542",
+      "expires_at": "2026-11-06T05:29:29.950544",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:08.348974"
+      "last_verified_at": "2026-11-03T05:32:23.674616"
     },
     {
       "id": "udemy:intentional-leadership",
@@ -104,11 +104,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.003440",
-      "last_seen_at": "2026-11-02T04:38:34.003440",
-      "expires_at": "2026-11-05T04:38:34.003443",
+      "scraped_at": "2026-11-03T05:29:29.950610",
+      "last_seen_at": "2026-11-03T05:29:29.950610",
+      "expires_at": "2026-11-06T05:29:29.950611",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:09.008775"
+      "last_verified_at": "2026-11-03T05:32:24.318460"
     },
     {
       "id": "udemy:authentic-leadership-t",
@@ -126,11 +126,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.003538",
-      "last_seen_at": "2026-11-02T04:38:34.003538",
-      "expires_at": "2026-11-05T04:38:34.003540",
+      "scraped_at": "2026-11-03T05:29:29.950675",
+      "last_seen_at": "2026-11-03T05:29:29.950675",
+      "expires_at": "2026-11-06T05:29:29.950676",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:09.641885"
+      "last_verified_at": "2026-11-03T05:32:24.940888"
     },
     {
       "id": "udemy:workplace-stress-management-strategies",
@@ -148,11 +148,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.003634",
-      "last_seen_at": "2026-11-02T04:38:34.003634",
-      "expires_at": "2026-11-05T04:38:34.003637",
+      "scraped_at": "2026-11-03T05:29:29.950739",
+      "last_seen_at": "2026-11-03T05:29:29.950739",
+      "expires_at": "2026-11-06T05:29:29.950740",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:10.284890"
+      "last_verified_at": "2026-11-03T05:32:25.569749"
     },
     {
       "id": "udemy:prioritization-techniques-for-decision-makers-and-leaders",
@@ -170,11 +170,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.003753",
-      "last_seen_at": "2026-11-02T04:38:34.003753",
-      "expires_at": "2026-11-05T04:38:34.003756",
+      "scraped_at": "2026-11-03T05:29:29.950822",
+      "last_seen_at": "2026-11-03T05:29:29.950822",
+      "expires_at": "2026-11-06T05:29:29.950824",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:10.927967"
+      "last_verified_at": "2026-11-03T05:32:26.202369"
     },
     {
       "id": "udemy:currency-management-for-small-businesses-corporates",
@@ -192,11 +192,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.003854",
-      "last_seen_at": "2026-11-02T04:38:34.003854",
-      "expires_at": "2026-11-05T04:38:34.003857",
+      "scraped_at": "2026-11-03T05:29:29.950890",
+      "last_seen_at": "2026-11-03T05:29:29.950890",
+      "expires_at": "2026-11-06T05:29:29.950892",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:11.559535"
+      "last_verified_at": "2026-11-03T05:32:26.863581"
     },
     {
       "id": "udemy:introduction-to-risk-management-in-financial-services",
@@ -214,11 +214,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.003953",
-      "last_seen_at": "2026-11-02T04:38:34.003953",
-      "expires_at": "2026-11-05T04:38:34.003955",
+      "scraped_at": "2026-11-03T05:29:29.950958",
+      "last_seen_at": "2026-11-03T05:29:29.950958",
+      "expires_at": "2026-11-06T05:29:29.950959",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:12.211837"
+      "last_verified_at": "2026-11-03T05:32:27.495050"
     },
     {
       "id": "udemy:introduction-to-financial-products-services-i",
@@ -236,11 +236,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.004082",
-      "last_seen_at": "2026-11-02T04:38:34.004082",
-      "expires_at": "2026-11-05T04:38:34.004088",
+      "scraped_at": "2026-11-03T05:29:29.951027",
+      "last_seen_at": "2026-11-03T05:29:29.951027",
+      "expires_at": "2026-11-06T05:29:29.951032",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:12.867278"
+      "last_verified_at": "2026-11-03T05:32:28.137011"
     },
     {
       "id": "udemy:productivity-focus-concentration-performance-strategies",
@@ -258,11 +258,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.004212",
-      "last_seen_at": "2026-11-02T04:38:34.004212",
-      "expires_at": "2026-11-05T04:38:34.004214",
+      "scraped_at": "2026-11-03T05:29:29.951119",
+      "last_seen_at": "2026-11-03T05:29:29.951119",
+      "expires_at": "2026-11-06T05:29:29.951120",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:13.515860"
+      "last_verified_at": "2026-11-03T05:32:28.805413"
     },
     {
       "id": "udemy:developing-successful-professional-relationships",
@@ -280,11 +280,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.004325",
-      "last_seen_at": "2026-11-02T04:38:34.004325",
-      "expires_at": "2026-11-05T04:38:34.004327",
+      "scraped_at": "2026-11-03T05:29:29.951189",
+      "last_seen_at": "2026-11-03T05:29:29.951189",
+      "expires_at": "2026-11-06T05:29:29.951191",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:14.140862"
+      "last_verified_at": "2026-11-03T05:32:29.434467"
     },
     {
       "id": "udemy:empathy-and-emotional-intelligence-for-project-managers",
@@ -302,11 +302,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.004434",
-      "last_seen_at": "2026-11-02T04:38:34.004434",
-      "expires_at": "2026-11-05T04:38:34.004436",
+      "scraped_at": "2026-11-03T05:29:29.951262",
+      "last_seen_at": "2026-11-03T05:29:29.951262",
+      "expires_at": "2026-11-06T05:29:29.951263",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:14.775227"
+      "last_verified_at": "2026-11-03T05:32:30.073472"
     },
     {
       "id": "udemy:financial-services-introduction-to-etfs",
@@ -324,11 +324,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.004539",
-      "last_seen_at": "2026-11-02T04:38:34.004539",
-      "expires_at": "2026-11-05T04:38:34.004541",
+      "scraped_at": "2026-11-03T05:29:29.951329",
+      "last_seen_at": "2026-11-03T05:29:29.951329",
+      "expires_at": "2026-11-06T05:29:29.951330",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:15.435189"
+      "last_verified_at": "2026-11-03T05:32:30.705149"
     },
     {
       "id": "udemy:introduction-to-financial-controls",
@@ -346,11 +346,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.004641",
-      "last_seen_at": "2026-11-02T04:38:34.004641",
-      "expires_at": "2026-11-05T04:38:34.004643",
+      "scraped_at": "2026-11-03T05:29:29.951394",
+      "last_seen_at": "2026-11-03T05:29:29.951394",
+      "expires_at": "2026-11-06T05:29:29.951396",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:16.097039"
+      "last_verified_at": "2026-11-03T05:32:31.339412"
     },
     {
       "id": "udemy:financial-services-overview-of-central-banks",
@@ -368,11 +368,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.004754",
-      "last_seen_at": "2026-11-02T04:38:34.004754",
-      "expires_at": "2026-11-05T04:38:34.004756",
+      "scraped_at": "2026-11-03T05:29:29.951487",
+      "last_seen_at": "2026-11-03T05:29:29.951487",
+      "expires_at": "2026-11-06T05:29:29.951488",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:16.751084"
+      "last_verified_at": "2026-11-03T05:32:31.985917"
     },
     {
       "id": "udemy:workplace-productivity-supporting-others-through-change",
@@ -390,11 +390,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.004869",
-      "last_seen_at": "2026-11-02T04:38:34.004869",
-      "expires_at": "2026-11-05T04:38:34.004871",
+      "scraped_at": "2026-11-03T05:29:29.951563",
+      "last_seen_at": "2026-11-03T05:29:29.951563",
+      "expires_at": "2026-11-06T05:29:29.951565",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:17.400927"
+      "last_verified_at": "2026-11-03T05:32:32.612913"
     },
     {
       "id": "udemy:mental-health-for-the-workplace",
@@ -412,11 +412,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.004971",
-      "last_seen_at": "2026-11-02T04:38:34.004971",
-      "expires_at": "2026-11-05T04:38:34.004974",
+      "scraped_at": "2026-11-03T05:29:29.951630",
+      "last_seen_at": "2026-11-03T05:29:29.951630",
+      "expires_at": "2026-11-06T05:29:29.951631",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:18.064709"
+      "last_verified_at": "2026-11-03T05:32:33.249647"
     },
     {
       "id": "udemy:financial-services-overview-of-retail-banking",
@@ -434,11 +434,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.005104",
-      "last_seen_at": "2026-11-02T04:38:34.005104",
-      "expires_at": "2026-11-05T04:38:34.005110",
+      "scraped_at": "2026-11-03T05:29:29.951704",
+      "last_seen_at": "2026-11-03T05:29:29.951704",
+      "expires_at": "2026-11-06T05:29:29.951708",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:18.709093"
+      "last_verified_at": "2026-11-03T05:32:33.911793"
     },
     {
       "id": "udemy:workplace-productivity-coping-with-the-anxiety-of-leadership",
@@ -456,11 +456,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.005216",
-      "last_seen_at": "2026-11-02T04:38:34.005216",
-      "expires_at": "2026-11-05T04:38:34.005219",
+      "scraped_at": "2026-11-03T05:29:29.951770",
+      "last_seen_at": "2026-11-03T05:29:29.951770",
+      "expires_at": "2026-11-06T05:29:29.951771",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:19.354782"
+      "last_verified_at": "2026-11-03T05:32:34.542786"
     },
     {
       "id": "udemy:financial-services-basics-of-business-corporate-banking",
@@ -478,11 +478,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.005320",
-      "last_seen_at": "2026-11-02T04:38:34.005320",
-      "expires_at": "2026-11-05T04:38:34.005322",
+      "scraped_at": "2026-11-03T05:29:29.951835",
+      "last_seen_at": "2026-11-03T05:29:29.951835",
+      "expires_at": "2026-11-06T05:29:29.951836",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:20.004295"
+      "last_verified_at": "2026-11-03T05:32:35.314288"
     },
     {
       "id": "udemy:financial-services-funds-flow-optimization-concepts",
@@ -500,11 +500,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.005432",
-      "last_seen_at": "2026-11-02T04:38:34.005432",
-      "expires_at": "2026-11-05T04:38:34.005434",
+      "scraped_at": "2026-11-03T05:29:29.951907",
+      "last_seen_at": "2026-11-03T05:29:29.951907",
+      "expires_at": "2026-11-06T05:29:29.951908",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:20.668599"
+      "last_verified_at": "2026-11-03T05:32:35.962820"
     },
     {
       "id": "udemy:financial-services-basics-of-regulation-compliance",
@@ -522,11 +522,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.005542",
-      "last_seen_at": "2026-11-02T04:38:34.005542",
-      "expires_at": "2026-11-05T04:38:34.005544",
+      "scraped_at": "2026-11-03T05:29:29.951981",
+      "last_seen_at": "2026-11-03T05:29:29.951981",
+      "expires_at": "2026-11-06T05:29:29.951983",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:21.335203"
+      "last_verified_at": "2026-11-03T05:32:36.596045"
     },
     {
       "id": "udemy:de-la-receta-al-chef-conviertete-en-ingeniero-de-llm",
@@ -544,11 +544,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.005646",
-      "last_seen_at": "2026-11-02T04:38:34.005646",
-      "expires_at": "2026-11-05T04:38:34.005648",
+      "scraped_at": "2026-11-03T05:29:29.952050",
+      "last_seen_at": "2026-11-03T05:29:29.952050",
+      "expires_at": "2026-11-06T05:29:29.952051",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:21.980480"
+      "last_verified_at": "2026-11-03T05:32:37.237203"
     },
     {
       "id": "udemy:artificial-intelligence-bootcamp-arabic",
@@ -566,11 +566,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.006018",
-      "last_seen_at": "2026-11-02T04:38:34.006018",
-      "expires_at": "2026-11-05T04:38:34.006021",
+      "scraped_at": "2026-11-03T05:29:29.952282",
+      "last_seen_at": "2026-11-03T05:29:29.952282",
+      "expires_at": "2026-11-06T05:29:29.952283",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:22.626903"
+      "last_verified_at": "2026-11-03T05:32:37.874818"
     },
     {
       "id": "udemy:masterclass-en-ingenierie-de-lia-de-zero-a-heros-de-lia",
@@ -588,11 +588,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.006135",
-      "last_seen_at": "2026-11-02T04:38:34.006135",
-      "expires_at": "2026-11-05T04:38:34.006138",
+      "scraped_at": "2026-11-03T05:29:29.952355",
+      "last_seen_at": "2026-11-03T05:29:29.952355",
+      "expires_at": "2026-11-06T05:29:29.952356",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:23.273931"
+      "last_verified_at": "2026-11-03T05:32:38.507475"
     },
     {
       "id": "udemy:ki-ingenieurwesen-masterclass-vom-anfanger-zum-ki-helden",
@@ -610,11 +610,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.006243",
-      "last_seen_at": "2026-11-02T04:38:34.006243",
-      "expires_at": "2026-11-05T04:38:34.006245",
+      "scraped_at": "2026-11-03T05:29:29.952424",
+      "last_seen_at": "2026-11-03T05:29:29.952424",
+      "expires_at": "2026-11-06T05:29:29.952425",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:23.914068"
+      "last_verified_at": "2026-11-03T05:32:39.215490"
     },
     {
       "id": "udemy:masterclass-de-engenharia-de-ia-do-zero-ao-heroi-da-ia",
@@ -632,11 +632,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.006353",
-      "last_seen_at": "2026-11-02T04:38:34.006353",
-      "expires_at": "2026-11-05T04:38:34.006355",
+      "scraped_at": "2026-11-03T05:29:29.952577",
+      "last_seen_at": "2026-11-03T05:29:29.952577",
+      "expires_at": "2026-11-06T05:29:29.952581",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:24.553372"
+      "last_verified_at": "2026-11-03T05:32:39.845065"
     },
     {
       "id": "udemy:maitrise-de-python-100-jours-100-projets",
@@ -654,11 +654,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.006450",
-      "last_seen_at": "2026-11-02T04:38:34.006450",
-      "expires_at": "2026-11-05T04:38:34.006452",
+      "scraped_at": "2026-11-03T05:29:29.952655",
+      "last_seen_at": "2026-11-03T05:29:29.952655",
+      "expires_at": "2026-11-06T05:29:29.952656",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:25.189755"
+      "last_verified_at": "2026-11-03T05:32:40.474046"
     },
     {
       "id": "udemy:python-ustalg-100-gun-100-proje",
@@ -676,11 +676,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.006547",
-      "last_seen_at": "2026-11-02T04:38:34.006547",
-      "expires_at": "2026-11-05T04:38:34.006552",
+      "scraped_at": "2026-11-03T05:29:29.952721",
+      "last_seen_at": "2026-11-03T05:29:29.952721",
+      "expires_at": "2026-11-06T05:29:29.952725",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:25.839061"
+      "last_verified_at": "2026-11-03T05:32:41.105315"
     },
     {
       "id": "udemy:deepseek-r1-ia-25-proyectos-de-ia-para-principiantes",
@@ -698,11 +698,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.006658",
-      "last_seen_at": "2026-11-02T04:38:34.006658",
-      "expires_at": "2026-11-05T04:38:34.006660",
+      "scraped_at": "2026-11-03T05:29:29.952796",
+      "last_seen_at": "2026-11-03T05:29:29.952796",
+      "expires_at": "2026-11-06T05:29:29.952797",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:26.471848"
+      "last_verified_at": "2026-11-03T05:32:41.743121"
     },
     {
       "id": "udemy:deepseek-french",
@@ -720,11 +720,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.006764",
-      "last_seen_at": "2026-11-02T04:38:34.006764",
-      "expires_at": "2026-11-05T04:38:34.006766",
+      "scraped_at": "2026-11-03T05:29:29.952868",
+      "last_seen_at": "2026-11-03T05:29:29.952868",
+      "expires_at": "2026-11-06T05:29:29.952869",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:27.135042"
+      "last_verified_at": "2026-11-03T05:32:42.375808"
     },
     {
       "id": "udemy:deepseek-turkish",
@@ -742,11 +742,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.006872",
-      "last_seen_at": "2026-11-02T04:38:34.006872",
-      "expires_at": "2026-11-05T04:38:34.006875",
+      "scraped_at": "2026-11-03T05:29:29.952941",
+      "last_seen_at": "2026-11-03T05:29:29.952941",
+      "expires_at": "2026-11-06T05:29:29.952942",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:27.793611"
+      "last_verified_at": "2026-11-03T05:32:43.005645"
     },
     {
       "id": "udemy:ollama-ile-yapay-zeka-llama-deepseek-mistral-qwq",
@@ -764,11 +764,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.006996",
-      "last_seen_at": "2026-11-02T04:38:34.006996",
-      "expires_at": "2026-11-05T04:38:34.006999",
+      "scraped_at": "2026-11-03T05:29:29.953012",
+      "last_seen_at": "2026-11-03T05:29:29.953012",
+      "expires_at": "2026-11-06T05:29:29.953013",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:28.447185"
+      "last_verified_at": "2026-11-03T05:32:43.629587"
     },
     {
       "id": "udemy:ia-full-stack-avec-ollama-llama-deepseek-mistral-qwq",
@@ -786,11 +786,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.007107",
-      "last_seen_at": "2026-11-02T04:38:34.007107",
-      "expires_at": "2026-11-05T04:38:34.007109",
+      "scraped_at": "2026-11-03T05:29:29.953081",
+      "last_seen_at": "2026-11-03T05:29:29.953081",
+      "expires_at": "2026-11-06T05:29:29.953082",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:29.080785"
+      "last_verified_at": "2026-11-03T05:32:44.262791"
     },
     {
       "id": "udemy:full-stack-ai-met-ollama-llama-deepseek-mistral-qwq",
@@ -808,11 +808,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.007207",
-      "last_seen_at": "2026-11-02T04:38:34.007207",
-      "expires_at": "2026-11-05T04:38:34.007209",
+      "scraped_at": "2026-11-03T05:29:29.953149",
+      "last_seen_at": "2026-11-03T05:29:29.953149",
+      "expires_at": "2026-11-06T05:29:29.953150",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:29.713028"
+      "last_verified_at": "2026-11-03T05:32:44.885831"
     },
     {
       "id": "udemy:fr-mega-classe-ia-python-300-projets-pratiques",
@@ -830,11 +830,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.007301",
-      "last_seen_at": "2026-11-02T04:38:34.007301",
-      "expires_at": "2026-11-05T04:38:34.007303",
+      "scraped_at": "2026-11-03T05:29:29.953208",
+      "last_seen_at": "2026-11-03T05:29:29.953208",
+      "expires_at": "2026-11-06T05:29:29.953209",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:30.391832"
+      "last_verified_at": "2026-11-03T05:32:45.536452"
     },
     {
       "id": "udemy:es-certificado-de-explorador-en-ingenieria-de-ia",
@@ -852,11 +852,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.007405",
-      "last_seen_at": "2026-11-02T04:38:34.007405",
-      "expires_at": "2026-11-05T04:38:34.007407",
+      "scraped_at": "2026-11-03T05:29:29.953277",
+      "last_seen_at": "2026-11-03T05:29:29.953277",
+      "expires_at": "2026-11-06T05:29:29.953278",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:31.047807"
+      "last_verified_at": "2026-11-03T05:32:46.178722"
     },
     {
       "id": "udemy:es-curso-de-certificacion-de-ingeniero-asociado-en-ia",
@@ -874,11 +874,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.007515",
-      "last_seen_at": "2026-11-02T04:38:34.007515",
-      "expires_at": "2026-11-05T04:38:34.007517",
+      "scraped_at": "2026-11-03T05:29:29.953348",
+      "last_seen_at": "2026-11-03T05:29:29.953348",
+      "expires_at": "2026-11-06T05:29:29.953349",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:31.693622"
+      "last_verified_at": "2026-11-03T05:32:46.814233"
     },
     {
       "id": "udemy:fr-certificat-dexplorateur-en-ingenierie-de-lia",
@@ -896,11 +896,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.007629",
-      "last_seen_at": "2026-11-02T04:38:34.007629",
-      "expires_at": "2026-11-05T04:38:34.007633",
+      "scraped_at": "2026-11-03T05:29:29.953424",
+      "last_seen_at": "2026-11-03T05:29:29.953424",
+      "expires_at": "2026-11-06T05:29:29.953452",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:32.364527"
+      "last_verified_at": "2026-11-03T05:32:47.465236"
     },
     {
       "id": "udemy:fr-cours-de-certification-ingenieur-associe-en-ia",
@@ -918,11 +918,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:34.007740",
-      "last_seen_at": "2026-11-02T04:38:34.007740",
-      "expires_at": "2026-11-05T04:38:34.007741",
+      "scraped_at": "2026-11-03T05:29:29.953534",
+      "last_seen_at": "2026-11-03T05:29:29.953534",
+      "expires_at": "2026-11-06T05:29:29.953535",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:33.032492"
+      "last_verified_at": "2026-11-03T05:32:48.112579"
     },
     {
       "id": "udemy:ai-models-mastery-chatgpt-gemini-and-deepseek",
@@ -940,11 +940,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:37.021165",
-      "last_seen_at": "2026-11-02T04:38:37.021165",
-      "expires_at": "2026-11-05T04:38:37.021174",
+      "scraped_at": "2026-11-03T05:29:32.800395",
+      "last_seen_at": "2026-11-03T05:29:32.800395",
+      "expires_at": "2026-11-06T05:29:32.800405",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:33.687413"
+      "last_verified_at": "2026-11-03T05:32:48.749305"
     },
     {
       "id": "udemy:mysql-database-management-create-manage-query-database",
@@ -962,11 +962,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:37.021293",
-      "last_seen_at": "2026-11-02T04:38:37.021293",
-      "expires_at": "2026-11-05T04:38:37.021295",
+      "scraped_at": "2026-11-03T05:29:32.800526",
+      "last_seen_at": "2026-11-03T05:29:32.800526",
+      "expires_at": "2026-11-06T05:29:32.800528",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:34.318397"
+      "last_verified_at": "2026-11-03T05:32:49.390995"
     },
     {
       "id": "udemy:nodejs-build-fast-and-scalable-backend-applications",
@@ -984,11 +984,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:37.021406",
-      "last_seen_at": "2026-11-02T04:38:37.021406",
-      "expires_at": "2026-11-05T04:38:37.021408",
+      "scraped_at": "2026-11-03T05:29:32.800608",
+      "last_seen_at": "2026-11-03T05:29:32.800608",
+      "expires_at": "2026-11-06T05:29:32.800610",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:34.961685"
+      "last_verified_at": "2026-11-03T05:32:50.019989"
     },
     {
       "id": "udemy:python-data-analysis-matplotlib-seaborn-pandas-numpy",
@@ -1006,11 +1006,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:37.021513",
-      "last_seen_at": "2026-11-02T04:38:37.021513",
-      "expires_at": "2026-11-05T04:38:37.021515",
+      "scraped_at": "2026-11-03T05:29:32.800681",
+      "last_seen_at": "2026-11-03T05:29:32.800681",
+      "expires_at": "2026-11-06T05:29:32.800682",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:35.614168"
+      "last_verified_at": "2026-11-03T05:32:50.659951"
     },
     {
       "id": "udemy:the-complete-google-forms-course-mastering-google-forms",
@@ -1028,11 +1028,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:37.021636",
-      "last_seen_at": "2026-11-02T04:38:37.021636",
-      "expires_at": "2026-11-05T04:38:37.021638",
+      "scraped_at": "2026-11-03T05:29:32.800767",
+      "last_seen_at": "2026-11-03T05:29:32.800767",
+      "expires_at": "2026-11-06T05:29:32.800768",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:36.248477"
+      "last_verified_at": "2026-11-03T05:32:51.295730"
     },
     {
       "id": "udemy:powerpoint-microsoft-powerpoint-from-basic-to-advanced",
@@ -1050,11 +1050,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:37.021757",
-      "last_seen_at": "2026-11-02T04:38:37.021757",
-      "expires_at": "2026-11-05T04:38:37.021759",
+      "scraped_at": "2026-11-03T05:29:32.800853",
+      "last_seen_at": "2026-11-03T05:29:32.800853",
+      "expires_at": "2026-11-06T05:29:32.800854",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:36.945941"
+      "last_verified_at": "2026-11-03T05:32:51.936284"
     },
     {
       "id": "udemy:google-sheets-the-complete-google-sheets-course",
@@ -1072,11 +1072,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:37.021877",
-      "last_seen_at": "2026-11-02T04:38:37.021877",
-      "expires_at": "2026-11-05T04:38:37.021879",
+      "scraped_at": "2026-11-03T05:29:32.800936",
+      "last_seen_at": "2026-11-03T05:29:32.800936",
+      "expires_at": "2026-11-06T05:29:32.800937",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:37.583052"
+      "last_verified_at": "2026-11-03T05:32:52.565717"
     },
     {
       "id": "udemy:r-programming-r-programming-language-beginners-to-pro",
@@ -1094,11 +1094,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:37.021977",
-      "last_seen_at": "2026-11-02T04:38:37.021977",
-      "expires_at": "2026-11-05T04:38:37.021997",
+      "scraped_at": "2026-11-03T05:29:32.801007",
+      "last_seen_at": "2026-11-03T05:29:32.801007",
+      "expires_at": "2026-11-06T05:29:32.801008",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:38.235058"
+      "last_verified_at": "2026-11-03T05:32:53.195252"
     },
     {
       "id": "udemy:mongodb-the-complete-mongodb-developers-course",
@@ -1116,11 +1116,11 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:37.022101",
-      "last_seen_at": "2026-11-02T04:38:37.022101",
-      "expires_at": "2026-11-05T04:38:37.022103",
+      "scraped_at": "2026-11-03T05:29:32.801076",
+      "last_seen_at": "2026-11-03T05:29:32.801076",
+      "expires_at": "2026-11-06T05:29:32.801077",
       "content_status": "pending",
-      "last_verified_at": "2026-11-02T04:42:38.878863"
+      "last_verified_at": "2026-11-03T05:32:53.829859"
     },
     {
       "id": "udemy:mix-costing_split-valuation_procurement_manufacturing",
@@ -1138,9 +1138,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:38.488827",
-      "last_seen_at": "2026-11-02T04:38:38.488827",
-      "expires_at": "2026-11-05T04:38:38.488836",
+      "scraped_at": "2026-11-03T05:29:33.750421",
+      "last_seen_at": "2026-11-03T05:29:33.750421",
+      "expires_at": "2026-11-06T05:29:33.750442",
       "content_status": "pending"
     },
     {
@@ -1159,9 +1159,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.266617",
-      "last_seen_at": "2026-11-02T04:38:41.266617",
-      "expires_at": "2026-11-05T04:38:41.266627",
+      "scraped_at": "2026-11-03T05:29:36.497723",
+      "last_seen_at": "2026-11-03T05:29:36.497723",
+      "expires_at": "2026-11-06T05:29:36.497733",
       "content_status": "pending"
     },
     {
@@ -1180,9 +1180,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.266829",
-      "last_seen_at": "2026-11-02T04:38:41.266829",
-      "expires_at": "2026-11-05T04:38:41.266832",
+      "scraped_at": "2026-11-03T05:29:36.497870",
+      "last_seen_at": "2026-11-03T05:29:36.497870",
+      "expires_at": "2026-11-06T05:29:36.497872",
       "content_status": "pending"
     },
     {
@@ -1201,9 +1201,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.266933",
-      "last_seen_at": "2026-11-02T04:38:41.266933",
-      "expires_at": "2026-11-05T04:38:41.266936",
+      "scraped_at": "2026-11-03T05:29:36.497937",
+      "last_seen_at": "2026-11-03T05:29:36.497937",
+      "expires_at": "2026-11-06T05:29:36.497938",
       "content_status": "pending"
     },
     {
@@ -1222,9 +1222,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.267053",
-      "last_seen_at": "2026-11-02T04:38:41.267053",
-      "expires_at": "2026-11-05T04:38:41.267056",
+      "scraped_at": "2026-11-03T05:29:36.497998",
+      "last_seen_at": "2026-11-03T05:29:36.497998",
+      "expires_at": "2026-11-06T05:29:36.497999",
       "content_status": "pending"
     },
     {
@@ -1243,9 +1243,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.267156",
-      "last_seen_at": "2026-11-02T04:38:41.267156",
-      "expires_at": "2026-11-05T04:38:41.267158",
+      "scraped_at": "2026-11-03T05:29:36.498066",
+      "last_seen_at": "2026-11-03T05:29:36.498066",
+      "expires_at": "2026-11-06T05:29:36.498067",
       "content_status": "pending"
     },
     {
@@ -1264,9 +1264,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.267262",
-      "last_seen_at": "2026-11-02T04:38:41.267262",
-      "expires_at": "2026-11-05T04:38:41.267264",
+      "scraped_at": "2026-11-03T05:29:36.498135",
+      "last_seen_at": "2026-11-03T05:29:36.498135",
+      "expires_at": "2026-11-06T05:29:36.498136",
       "content_status": "pending"
     },
     {
@@ -1285,9 +1285,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.267365",
-      "last_seen_at": "2026-11-02T04:38:41.267365",
-      "expires_at": "2026-11-05T04:38:41.267367",
+      "scraped_at": "2026-11-03T05:29:36.498204",
+      "last_seen_at": "2026-11-03T05:29:36.498204",
+      "expires_at": "2026-11-06T05:29:36.498205",
       "content_status": "pending"
     },
     {
@@ -1306,9 +1306,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.267464",
-      "last_seen_at": "2026-11-02T04:38:41.267464",
-      "expires_at": "2026-11-05T04:38:41.267470",
+      "scraped_at": "2026-11-03T05:29:36.498269",
+      "last_seen_at": "2026-11-03T05:29:36.498269",
+      "expires_at": "2026-11-06T05:29:36.498270",
       "content_status": "pending"
     },
     {
@@ -1327,9 +1327,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.267574",
-      "last_seen_at": "2026-11-02T04:38:41.267574",
-      "expires_at": "2026-11-05T04:38:41.267576",
+      "scraped_at": "2026-11-03T05:29:36.498338",
+      "last_seen_at": "2026-11-03T05:29:36.498338",
+      "expires_at": "2026-11-06T05:29:36.498345",
       "content_status": "pending"
     },
     {
@@ -1348,9 +1348,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.267677",
-      "last_seen_at": "2026-11-02T04:38:41.267677",
-      "expires_at": "2026-11-05T04:38:41.267679",
+      "scraped_at": "2026-11-03T05:29:36.498412",
+      "last_seen_at": "2026-11-03T05:29:36.498412",
+      "expires_at": "2026-11-06T05:29:36.498413",
       "content_status": "pending"
     },
     {
@@ -1369,9 +1369,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.267778",
-      "last_seen_at": "2026-11-02T04:38:41.267778",
-      "expires_at": "2026-11-05T04:38:41.267780",
+      "scraped_at": "2026-11-03T05:29:36.498493",
+      "last_seen_at": "2026-11-03T05:29:36.498493",
+      "expires_at": "2026-11-06T05:29:36.498494",
       "content_status": "pending"
     },
     {
@@ -1390,9 +1390,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.267879",
-      "last_seen_at": "2026-11-02T04:38:41.267879",
-      "expires_at": "2026-11-05T04:38:41.267881",
+      "scraped_at": "2026-11-03T05:29:36.498559",
+      "last_seen_at": "2026-11-03T05:29:36.498559",
+      "expires_at": "2026-11-06T05:29:36.498560",
       "content_status": "pending"
     },
     {
@@ -1411,9 +1411,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.267992",
-      "last_seen_at": "2026-11-02T04:38:41.267992",
-      "expires_at": "2026-11-05T04:38:41.267995",
+      "scraped_at": "2026-11-03T05:29:36.498625",
+      "last_seen_at": "2026-11-03T05:29:36.498625",
+      "expires_at": "2026-11-06T05:29:36.498626",
       "content_status": "pending"
     },
     {
@@ -1432,9 +1432,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.268105",
-      "last_seen_at": "2026-11-02T04:38:41.268105",
-      "expires_at": "2026-11-05T04:38:41.268107",
+      "scraped_at": "2026-11-03T05:29:36.498696",
+      "last_seen_at": "2026-11-03T05:29:36.498696",
+      "expires_at": "2026-11-06T05:29:36.498697",
       "content_status": "pending"
     },
     {
@@ -1453,9 +1453,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.268206",
-      "last_seen_at": "2026-11-02T04:38:41.268206",
-      "expires_at": "2026-11-05T04:38:41.268208",
+      "scraped_at": "2026-11-03T05:29:36.498760",
+      "last_seen_at": "2026-11-03T05:29:36.498760",
+      "expires_at": "2026-11-06T05:29:36.498761",
       "content_status": "pending"
     },
     {
@@ -1474,9 +1474,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.268322",
-      "last_seen_at": "2026-11-02T04:38:41.268322",
-      "expires_at": "2026-11-05T04:38:41.268324",
+      "scraped_at": "2026-11-03T05:29:36.498839",
+      "last_seen_at": "2026-11-03T05:29:36.498839",
+      "expires_at": "2026-11-06T05:29:36.498840",
       "content_status": "pending"
     },
     {
@@ -1495,9 +1495,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.268427",
-      "last_seen_at": "2026-11-02T04:38:41.268427",
-      "expires_at": "2026-11-05T04:38:41.268429",
+      "scraped_at": "2026-11-03T05:29:36.498904",
+      "last_seen_at": "2026-11-03T05:29:36.498904",
+      "expires_at": "2026-11-06T05:29:36.498905",
       "content_status": "pending"
     },
     {
@@ -1516,9 +1516,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.268523",
-      "last_seen_at": "2026-11-02T04:38:41.268523",
-      "expires_at": "2026-11-05T04:38:41.268527",
+      "scraped_at": "2026-11-03T05:29:36.498962",
+      "last_seen_at": "2026-11-03T05:29:36.498962",
+      "expires_at": "2026-11-06T05:29:36.498963",
       "content_status": "pending"
     },
     {
@@ -1537,9 +1537,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.268634",
-      "last_seen_at": "2026-11-02T04:38:41.268634",
-      "expires_at": "2026-11-05T04:38:41.268636",
+      "scraped_at": "2026-11-03T05:29:36.499033",
+      "last_seen_at": "2026-11-03T05:29:36.499033",
+      "expires_at": "2026-11-06T05:29:36.499036",
       "content_status": "pending"
     },
     {
@@ -1558,9 +1558,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.268741",
-      "last_seen_at": "2026-11-02T04:38:41.268741",
-      "expires_at": "2026-11-05T04:38:41.268743",
+      "scraped_at": "2026-11-03T05:29:36.499107",
+      "last_seen_at": "2026-11-03T05:29:36.499107",
+      "expires_at": "2026-11-06T05:29:36.499108",
       "content_status": "pending"
     },
     {
@@ -1579,9 +1579,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.268851",
-      "last_seen_at": "2026-11-02T04:38:41.268851",
-      "expires_at": "2026-11-05T04:38:41.268853",
+      "scraped_at": "2026-11-03T05:29:36.499176",
+      "last_seen_at": "2026-11-03T05:29:36.499176",
+      "expires_at": "2026-11-06T05:29:36.499177",
       "content_status": "pending"
     },
     {
@@ -1600,9 +1600,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.268952",
-      "last_seen_at": "2026-11-02T04:38:41.268952",
-      "expires_at": "2026-11-05T04:38:41.268954",
+      "scraped_at": "2026-11-03T05:29:36.499241",
+      "last_seen_at": "2026-11-03T05:29:36.499241",
+      "expires_at": "2026-11-06T05:29:36.499242",
       "content_status": "pending"
     },
     {
@@ -1621,9 +1621,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.269083",
-      "last_seen_at": "2026-11-02T04:38:41.269083",
-      "expires_at": "2026-11-05T04:38:41.269085",
+      "scraped_at": "2026-11-03T05:29:36.499313",
+      "last_seen_at": "2026-11-03T05:29:36.499313",
+      "expires_at": "2026-11-06T05:29:36.499314",
       "content_status": "pending"
     },
     {
@@ -1642,9 +1642,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.269189",
-      "last_seen_at": "2026-11-02T04:38:41.269189",
-      "expires_at": "2026-11-05T04:38:41.269191",
+      "scraped_at": "2026-11-03T05:29:36.499380",
+      "last_seen_at": "2026-11-03T05:29:36.499380",
+      "expires_at": "2026-11-06T05:29:36.499381",
       "content_status": "pending"
     },
     {
@@ -1663,9 +1663,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.269290",
-      "last_seen_at": "2026-11-02T04:38:41.269290",
-      "expires_at": "2026-11-05T04:38:41.269292",
+      "scraped_at": "2026-11-03T05:29:36.499455",
+      "last_seen_at": "2026-11-03T05:29:36.499455",
+      "expires_at": "2026-11-06T05:29:36.499457",
       "content_status": "pending"
     },
     {
@@ -1684,9 +1684,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.269399",
-      "last_seen_at": "2026-11-02T04:38:41.269399",
-      "expires_at": "2026-11-05T04:38:41.269401",
+      "scraped_at": "2026-11-03T05:29:36.499524",
+      "last_seen_at": "2026-11-03T05:29:36.499524",
+      "expires_at": "2026-11-06T05:29:36.499525",
       "content_status": "pending"
     },
     {
@@ -1705,9 +1705,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.269502",
-      "last_seen_at": "2026-11-02T04:38:41.269502",
-      "expires_at": "2026-11-05T04:38:41.269504",
+      "scraped_at": "2026-11-03T05:29:36.499590",
+      "last_seen_at": "2026-11-03T05:29:36.499590",
+      "expires_at": "2026-11-06T05:29:36.499591",
       "content_status": "pending"
     },
     {
@@ -1726,9 +1726,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.269605",
-      "last_seen_at": "2026-11-02T04:38:41.269605",
-      "expires_at": "2026-11-05T04:38:41.269610",
+      "scraped_at": "2026-11-03T05:29:36.499657",
+      "last_seen_at": "2026-11-03T05:29:36.499657",
+      "expires_at": "2026-11-06T05:29:36.499658",
       "content_status": "pending"
     },
     {
@@ -1747,9 +1747,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.269708",
-      "last_seen_at": "2026-11-02T04:38:41.269708",
-      "expires_at": "2026-11-05T04:38:41.269710",
+      "scraped_at": "2026-11-03T05:29:36.499718",
+      "last_seen_at": "2026-11-03T05:29:36.499718",
+      "expires_at": "2026-11-06T05:29:36.499723",
       "content_status": "pending"
     },
     {
@@ -1768,9 +1768,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.269809",
-      "last_seen_at": "2026-11-02T04:38:41.269809",
-      "expires_at": "2026-11-05T04:38:41.269811",
+      "scraped_at": "2026-11-03T05:29:36.499786",
+      "last_seen_at": "2026-11-03T05:29:36.499786",
+      "expires_at": "2026-11-06T05:29:36.499787",
       "content_status": "pending"
     },
     {
@@ -1789,9 +1789,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.269914",
-      "last_seen_at": "2026-11-02T04:38:41.269914",
-      "expires_at": "2026-11-05T04:38:41.269916",
+      "scraped_at": "2026-11-03T05:29:36.499855",
+      "last_seen_at": "2026-11-03T05:29:36.499855",
+      "expires_at": "2026-11-06T05:29:36.499856",
       "content_status": "pending"
     },
     {
@@ -1810,9 +1810,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.270041",
-      "last_seen_at": "2026-11-02T04:38:41.270041",
-      "expires_at": "2026-11-05T04:38:41.270044",
+      "scraped_at": "2026-11-03T05:29:36.499926",
+      "last_seen_at": "2026-11-03T05:29:36.499926",
+      "expires_at": "2026-11-06T05:29:36.499927",
       "content_status": "pending"
     },
     {
@@ -1831,9 +1831,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.270150",
-      "last_seen_at": "2026-11-02T04:38:41.270150",
-      "expires_at": "2026-11-05T04:38:41.270151",
+      "scraped_at": "2026-11-03T05:29:36.499992",
+      "last_seen_at": "2026-11-03T05:29:36.499992",
+      "expires_at": "2026-11-06T05:29:36.499993",
       "content_status": "pending"
     },
     {
@@ -1852,9 +1852,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.270256",
-      "last_seen_at": "2026-11-02T04:38:41.270256",
-      "expires_at": "2026-11-05T04:38:41.270258",
+      "scraped_at": "2026-11-03T05:29:36.500062",
+      "last_seen_at": "2026-11-03T05:29:36.500062",
+      "expires_at": "2026-11-06T05:29:36.500064",
       "content_status": "pending"
     },
     {
@@ -1873,9 +1873,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.270358",
-      "last_seen_at": "2026-11-02T04:38:41.270358",
-      "expires_at": "2026-11-05T04:38:41.270360",
+      "scraped_at": "2026-11-03T05:29:36.500129",
+      "last_seen_at": "2026-11-03T05:29:36.500129",
+      "expires_at": "2026-11-06T05:29:36.500130",
       "content_status": "pending"
     },
     {
@@ -1894,9 +1894,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.270465",
-      "last_seen_at": "2026-11-02T04:38:41.270465",
-      "expires_at": "2026-11-05T04:38:41.270467",
+      "scraped_at": "2026-11-03T05:29:36.500196",
+      "last_seen_at": "2026-11-03T05:29:36.500196",
+      "expires_at": "2026-11-06T05:29:36.500197",
       "content_status": "pending"
     },
     {
@@ -1915,9 +1915,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.270575",
-      "last_seen_at": "2026-11-02T04:38:41.270575",
-      "expires_at": "2026-11-05T04:38:41.270576",
+      "scraped_at": "2026-11-03T05:29:36.500264",
+      "last_seen_at": "2026-11-03T05:29:36.500264",
+      "expires_at": "2026-11-06T05:29:36.500265",
       "content_status": "pending"
     },
     {
@@ -1936,9 +1936,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.270679",
-      "last_seen_at": "2026-11-02T04:38:41.270679",
-      "expires_at": "2026-11-05T04:38:41.270685",
+      "scraped_at": "2026-11-03T05:29:36.500332",
+      "last_seen_at": "2026-11-03T05:29:36.500332",
+      "expires_at": "2026-11-06T05:29:36.500333",
       "content_status": "pending"
     },
     {
@@ -1957,9 +1957,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.270789",
-      "last_seen_at": "2026-11-02T04:38:41.270789",
-      "expires_at": "2026-11-05T04:38:41.270791",
+      "scraped_at": "2026-11-03T05:29:36.500400",
+      "last_seen_at": "2026-11-03T05:29:36.500400",
+      "expires_at": "2026-11-06T05:29:36.500403",
       "content_status": "pending"
     },
     {
@@ -1978,9 +1978,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.270895",
-      "last_seen_at": "2026-11-02T04:38:41.270895",
-      "expires_at": "2026-11-05T04:38:41.270898",
+      "scraped_at": "2026-11-03T05:29:36.500477",
+      "last_seen_at": "2026-11-03T05:29:36.500477",
+      "expires_at": "2026-11-06T05:29:36.500478",
       "content_status": "pending"
     },
     {
@@ -1999,9 +1999,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.271019",
-      "last_seen_at": "2026-11-02T04:38:41.271019",
-      "expires_at": "2026-11-05T04:38:41.271022",
+      "scraped_at": "2026-11-03T05:29:36.500542",
+      "last_seen_at": "2026-11-03T05:29:36.500542",
+      "expires_at": "2026-11-06T05:29:36.500543",
       "content_status": "pending"
     },
     {
@@ -2020,9 +2020,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.271128",
-      "last_seen_at": "2026-11-02T04:38:41.271128",
-      "expires_at": "2026-11-05T04:38:41.271130",
+      "scraped_at": "2026-11-03T05:29:36.500603",
+      "last_seen_at": "2026-11-03T05:29:36.500603",
+      "expires_at": "2026-11-06T05:29:36.500604",
       "content_status": "pending"
     },
     {
@@ -2041,9 +2041,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.271241",
-      "last_seen_at": "2026-11-02T04:38:41.271241",
-      "expires_at": "2026-11-05T04:38:41.271243",
+      "scraped_at": "2026-11-03T05:29:36.500674",
+      "last_seen_at": "2026-11-03T05:29:36.500674",
+      "expires_at": "2026-11-06T05:29:36.500675",
       "content_status": "pending"
     },
     {
@@ -2062,9 +2062,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.271343",
-      "last_seen_at": "2026-11-02T04:38:41.271343",
-      "expires_at": "2026-11-05T04:38:41.271345",
+      "scraped_at": "2026-11-03T05:29:36.500739",
+      "last_seen_at": "2026-11-03T05:29:36.500739",
+      "expires_at": "2026-11-06T05:29:36.500740",
       "content_status": "pending"
     },
     {
@@ -2083,9 +2083,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.271461",
-      "last_seen_at": "2026-11-02T04:38:41.271461",
-      "expires_at": "2026-11-05T04:38:41.271463",
+      "scraped_at": "2026-11-03T05:29:36.500817",
+      "last_seen_at": "2026-11-03T05:29:36.500817",
+      "expires_at": "2026-11-06T05:29:36.500818",
       "content_status": "pending"
     },
     {
@@ -2104,9 +2104,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.271562",
-      "last_seen_at": "2026-11-02T04:38:41.271562",
-      "expires_at": "2026-11-05T04:38:41.271564",
+      "scraped_at": "2026-11-03T05:29:36.500883",
+      "last_seen_at": "2026-11-03T05:29:36.500883",
+      "expires_at": "2026-11-06T05:29:36.500884",
       "content_status": "pending"
     },
     {
@@ -2125,9 +2125,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.271661",
-      "last_seen_at": "2026-11-02T04:38:41.271661",
-      "expires_at": "2026-11-05T04:38:41.271663",
+      "scraped_at": "2026-11-03T05:29:36.500950",
+      "last_seen_at": "2026-11-03T05:29:36.500950",
+      "expires_at": "2026-11-06T05:29:36.500952",
       "content_status": "pending"
     },
     {
@@ -2146,9 +2146,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.271776",
-      "last_seen_at": "2026-11-02T04:38:41.271776",
-      "expires_at": "2026-11-05T04:38:41.271832",
+      "scraped_at": "2026-11-03T05:29:36.501027",
+      "last_seen_at": "2026-11-03T05:29:36.501027",
+      "expires_at": "2026-11-06T05:29:36.501028",
       "content_status": "pending"
     },
     {
@@ -2167,9 +2167,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.271949",
-      "last_seen_at": "2026-11-02T04:38:41.271949",
-      "expires_at": "2026-11-05T04:38:41.271951",
+      "scraped_at": "2026-11-03T05:29:36.501102",
+      "last_seen_at": "2026-11-03T05:29:36.501102",
+      "expires_at": "2026-11-06T05:29:36.501106",
       "content_status": "pending"
     },
     {
@@ -2188,9 +2188,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.272087",
-      "last_seen_at": "2026-11-02T04:38:41.272087",
-      "expires_at": "2026-11-05T04:38:41.272090",
+      "scraped_at": "2026-11-03T05:29:36.501175",
+      "last_seen_at": "2026-11-03T05:29:36.501175",
+      "expires_at": "2026-11-06T05:29:36.501176",
       "content_status": "pending"
     },
     {
@@ -2209,9 +2209,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.272205",
-      "last_seen_at": "2026-11-02T04:38:41.272205",
-      "expires_at": "2026-11-05T04:38:41.272207",
+      "scraped_at": "2026-11-03T05:29:36.501249",
+      "last_seen_at": "2026-11-03T05:29:36.501249",
+      "expires_at": "2026-11-06T05:29:36.501250",
       "content_status": "pending"
     },
     {
@@ -2230,9 +2230,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.272303",
-      "last_seen_at": "2026-11-02T04:38:41.272303",
-      "expires_at": "2026-11-05T04:38:41.272305",
+      "scraped_at": "2026-11-03T05:29:36.501309",
+      "last_seen_at": "2026-11-03T05:29:36.501309",
+      "expires_at": "2026-11-06T05:29:36.501310",
       "content_status": "pending"
     },
     {
@@ -2251,9 +2251,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.354798",
-      "last_seen_at": "2026-11-02T04:38:41.354798",
-      "expires_at": "2026-11-05T04:38:41.354807",
+      "scraped_at": "2026-11-03T05:29:36.577574",
+      "last_seen_at": "2026-11-03T05:29:36.577574",
+      "expires_at": "2026-11-06T05:29:36.577583",
       "content_status": "pending"
     },
     {
@@ -2272,9 +2272,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.354923",
-      "last_seen_at": "2026-11-02T04:38:41.354923",
-      "expires_at": "2026-11-05T04:38:41.354926",
+      "scraped_at": "2026-11-03T05:29:36.577667",
+      "last_seen_at": "2026-11-03T05:29:36.577667",
+      "expires_at": "2026-11-06T05:29:36.577668",
       "content_status": "pending"
     },
     {
@@ -2293,9 +2293,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.355076",
-      "last_seen_at": "2026-11-02T04:38:41.355076",
-      "expires_at": "2026-11-05T04:38:41.355079",
+      "scraped_at": "2026-11-03T05:29:36.577752",
+      "last_seen_at": "2026-11-03T05:29:36.577752",
+      "expires_at": "2026-11-06T05:29:36.577753",
       "content_status": "pending"
     },
     {
@@ -2314,9 +2314,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.355197",
-      "last_seen_at": "2026-11-02T04:38:41.355197",
-      "expires_at": "2026-11-05T04:38:41.355199",
+      "scraped_at": "2026-11-03T05:29:36.577834",
+      "last_seen_at": "2026-11-03T05:29:36.577834",
+      "expires_at": "2026-11-06T05:29:36.577836",
       "content_status": "pending"
     },
     {
@@ -2335,9 +2335,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.355307",
-      "last_seen_at": "2026-11-02T04:38:41.355307",
-      "expires_at": "2026-11-05T04:38:41.355313",
+      "scraped_at": "2026-11-03T05:29:36.577908",
+      "last_seen_at": "2026-11-03T05:29:36.577908",
+      "expires_at": "2026-11-06T05:29:36.577909",
       "content_status": "pending"
     },
     {
@@ -2356,9 +2356,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.355427",
-      "last_seen_at": "2026-11-02T04:38:41.355427",
-      "expires_at": "2026-11-05T04:38:41.355429",
+      "scraped_at": "2026-11-03T05:29:36.577983",
+      "last_seen_at": "2026-11-03T05:29:36.577983",
+      "expires_at": "2026-11-06T05:29:36.577988",
       "content_status": "pending"
     },
     {
@@ -2377,9 +2377,9 @@
       "students": null,
       "course_language": "en",
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:41.355544",
-      "last_seen_at": "2026-11-02T04:38:41.355544",
-      "expires_at": "2026-11-05T04:38:41.355546",
+      "scraped_at": "2026-11-03T05:29:36.578066",
+      "last_seen_at": "2026-11-03T05:29:36.578066",
+      "expires_at": "2026-11-06T05:29:36.578067",
       "content_status": "pending"
     },
     {
@@ -2398,9 +2398,30 @@
       "students": null,
       "course_language": null,
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:38:55.691086",
-      "last_seen_at": "2026-11-02T04:38:55.691086",
-      "expires_at": "2026-11-05T04:38:55.691097",
+      "scraped_at": "2026-11-03T05:29:44.831827",
+      "last_seen_at": "2026-11-03T05:29:44.831827",
+      "expires_at": "2026-11-06T05:29:44.831837",
+      "content_status": "pending"
+    },
+    {
+      "id": "udemy:overthinking",
+      "slug": "overthinking",
+      "title": "Break Free from Overthinking",
+      "url": "https://www.udemy.com/course/overthinking/",
+      "platform": "Udemy",
+      "coupon_code": null,
+      "category": "general",
+      "source": "udemyfree.eu.org",
+      "thumbnail": "https://img-c.udemycdn.com/course/750x422/7129195_8949.jpg",
+      "instructor": null,
+      "description": null,
+      "rating": null,
+      "students": null,
+      "course_language": null,
+      "is_expired": false,
+      "scraped_at": "2026-11-03T05:30:00.883738",
+      "last_seen_at": "2026-11-03T05:30:00.883738",
+      "expires_at": "2026-11-06T05:30:00.883747",
       "content_status": "pending"
     },
     {
@@ -2419,15 +2440,15 @@
       "students": null,
       "course_language": null,
       "is_expired": false,
-      "scraped_at": "2026-11-02T04:39:42.816351",
-      "last_seen_at": "2026-11-02T04:39:42.816351",
-      "expires_at": "2026-11-05T04:39:42.816361",
+      "scraped_at": "2026-11-03T05:30:01.184488",
+      "last_seen_at": "2026-11-03T05:30:01.184488",
+      "expires_at": "2026-11-06T05:30:01.184497",
       "content_status": "pending"
     }
   ],
   "by_category": {
     "programming": 16,
-    "general": 66,
+    "general": 67,
     "business": 12,
     "personal": 2,
     "data": 9,
